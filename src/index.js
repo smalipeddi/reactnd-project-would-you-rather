@@ -2,12 +2,43 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { Provider }  from 'react-redux';
 import reportWebVitals from './reportWebVitals';
+import { createStore ,applyMiddleware } from 'redux'
+import { rootReducer } from "./Reducers/rootReducer";
+
+import { handleInitialData } from "./Actions/shared"
+import thunk from "redux-thunk";
+
+const Context = React.createContext();
+
+const store = createStore(rootReducer ,applyMiddleware(thunk));
+console.log("sunitha", store.getState());
+store.dispatch(handleInitialData);
+
+
+class ConnectedApp extends React.Component {
+  render() {
+    return (
+      <Context.Consumer>
+        {(store) => (
+          <App store={store} />
+        )}
+      </Context.Consumer>
+    )
+  }
+}
+
+
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  
+
+    <Provider store={store}>
+    <ConnectedApp />
+    </Provider>,
+  
   document.getElementById('root')
 );
 
