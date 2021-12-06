@@ -1,8 +1,7 @@
 
 import './index.css';
-import { createStore } from 'redux'
+import { createStore, handleInitialData } from 'redux'
 import { rootReducer } from "./Reducers/rootReducer";
-import { handleInitialData } from "./Actions/shared"
 import middleware from "./Middleware";
 
 const store = createStore(rootReducer, middleware);

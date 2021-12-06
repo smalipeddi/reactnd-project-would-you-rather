@@ -10,17 +10,17 @@ export class App extends React.Component {
     console.log("anu", this.props.user);
     return (
       <div>
-        <h1>{this.props.user || 'Hello World!'}</h1>
+        <h1>{this.props.user.title || 'Hello World!'}</h1>
 
         {
-        this.props.user ? 
+        this.props.user.title ? 
         (
-          <button onClick={this.props.signOutUser("good bye")}>Exit user</button>
+          <button onClick={this.props.signOutUser}>Exit user</button>
         ) : 
         (
           <button
             onClick={() =>
-              this.props.signInUser("hello")
+              this.props.signInUser({ title: 'I am a geo dude!' })
             }
           >
             Click Me!
