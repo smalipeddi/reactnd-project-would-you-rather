@@ -1,64 +1,66 @@
 import React from 'react';
-import './App.css';
-import * as API from './_DATA';
-import Login from './Login';
-import Navigation from "./Components/Navigation/Navigation";
-import { connect  } from 'react-redux';
-import { handleInitialData } from "./Actions/shared";
-import {setAuthedUser} from "./Actions/authedUser";
-import { receiveUsers } from './Actions/users';
 
-const Context = React.createContext();
+import { connect } from 'react-redux';
 
-class ConnectedLoginApp extends React.Component {
+import { signInUser, signOutUser, setAuthedUser, receiveUsers } from './redux';
+
+// App.js
+export class App extends React.Component {
   render() {
     return (
-      <Context.Consumer>
-        {(store) => {
-          
-          return <Login/>
-      
-          
-      }}</Context.Consumer>)
-  }
-}
+      <div>
+        <h1>{this.props.user.title || 'Hello World!'}</h1>
+
+        {
+        this.props.user.title ? 
+        (
+          <button onClick={this.props.signOutUser}>Exit user</button>
+        ) : 
+        (
+          <button
+            onClick={() =>
+              this.props.signInUser({ title: 'I am a geo dude!' })
+            }
+          >
+            Click Me!
+          </button>
+        )}
 
 
-class App extends React.Component {
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-        </header>
-        <main>
-        <Navigation />
+{
+        this.props.users ? 
+        (
+          <h1>{this.props.users[0]}</h1>
+        ) : 
+        (
+          <h1>{this.props.users[0]}</h1>
          
-            <ConnectedLoginApp />
-         
-        </main>
+        )}
+        
+        
+
       </div>
     );
   }
 }
 
-const  mapStateToProps = (state) => {
-  console.log("sunitha is app", state);
-  return {
-    authedUser: state.authedUser,
-    users: state.users.users,
-    isLoggedIn: state.isLoggedIn
-  }
-}
+// AppContainer.js
+const mapStateToProps = state => ({
+  user: state.user,
+  users: state.users
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-   // users: () => dispatchEvent(receiveUsers()),
-    authedUser: () => dispatch(setAuthedUser())
-  }
-}
+const mapDispatchToProps = {
+  signInUser,
+  signOutUser,
+  setAuthedUser,
+  receiveUsers
 
+};
 
+const AppContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
-
+export default AppContainer;
