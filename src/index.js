@@ -4,18 +4,9 @@ import './index.css';
 import App from './App';
 import { Provider }  from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-import { createStore ,applyMiddleware } from 'redux'
-import { rootReducer } from "./Reducers/rootReducer";
-
-import { handleInitialData } from "./Actions/shared"
-import thunk from "redux-thunk";
+import store from './store'
 
 const Context = React.createContext();
-
-const store = createStore(rootReducer ,applyMiddleware(thunk));
-console.log("sunitha", store.getState());
-store.dispatch(handleInitialData);
-
 
 class ConnectedApp extends React.Component {
   render() {
@@ -29,14 +20,11 @@ class ConnectedApp extends React.Component {
   }
 }
 
-
-
-
 ReactDOM.render(
   
 
     <Provider store={store}>
-    <ConnectedApp />
+   <ConnectedApp />
     </Provider>,
   
   document.getElementById('root')

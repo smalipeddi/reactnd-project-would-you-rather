@@ -1,14 +1,14 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
+import {setAuthedUser} from "./Actions/authedUser";
 class Login extends React.Component{
 
-    componentDidMount() {
-
-    }
-    loginUser = (e) => {
+  componentDidMount() {
+    
+   }
+   loginUser = (e) => {
         e.preventDefault();
         const name= this.input.value;
-        console.log(name);
         this.input.value = '';
       }
    
@@ -17,11 +17,25 @@ class Login extends React.Component{
         <div>
           <h1> Sign In </h1>
             <input type="text" placeholder="User Name" ref={(input) => this.input = input}/>
-       
-             <button onClick ={this.loginUser}> Sign In </button>
+          
+             <button onClick ={this.props.setAuthedUser}> Sign In </button>
           </div>
       )
     }
   }
 
-  export default Login;
+function mapStateToProps(state) {
+  return {
+    authedUser: state.authedUser,
+    users: state.users,
+    isLoggedIn: state.isLoggedIn
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    authedUser: () => dispatch(setAuthedUser())
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+

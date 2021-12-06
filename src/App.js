@@ -2,7 +2,11 @@ import React from 'react';
 import './App.css';
 import * as API from './_DATA';
 import Login from './Login';
-import Navigation from "./Navigation/Navigation"
+import Navigation from "./Components/Navigation/Navigation";
+import { connect  } from 'react-redux';
+import { handleInitialData } from "./Actions/shared";
+import {setAuthedUser} from "./Actions/authedUser";
+import { receiveUsers } from './Actions/users';
 
 const Context = React.createContext();
 
@@ -11,19 +15,16 @@ class ConnectedLoginApp extends React.Component {
     return (
       <Context.Consumer>
         {(store) => {
-          // const { isLoggedIn } = store.getState();
-          // console.log(isLoggedIn);
-          // return <Login isLoggedIn={isLoggedIn} dispatch={store.dispatch} />
-          return <Login />
-        }}</Context.Consumer>)
+          
+          return <Login/>
+      
+          
+      }}</Context.Consumer>)
   }
 }
 
 
 class App extends React.Component {
-  componentDidMount() {
-    const { store } = this.props
-  }
 
   render() {
     return (
@@ -41,4 +42,23 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const  mapStateToProps = (state) => {
+  console.log("sunitha is app", state);
+  return {
+    authedUser: state.authedUser,
+    users: state.users.users,
+    isLoggedIn: state.isLoggedIn
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+   // users: () => dispatchEvent(receiveUsers()),
+    authedUser: () => dispatch(setAuthedUser())
+  }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+

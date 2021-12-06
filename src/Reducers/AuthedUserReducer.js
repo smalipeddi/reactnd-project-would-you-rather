@@ -1,5 +1,5 @@
 import { SET_AUTHED_USER } from '../Actions/authedUser';
-export default function authedUser (state = null , action) {
+const authedUser  = (state = null , action) => {
     switch(action.type) {
         case SET_AUTHED_USER: 
             return action.id
@@ -7,3 +7,5 @@ export default function authedUser (state = null , action) {
             return state
     }
 }
+
+export default authedUser

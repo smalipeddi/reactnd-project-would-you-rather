@@ -1,18 +1,18 @@
-import loginAction from '../Actions/loginActions'
+import { USER_LOGIN, USER_LOGOUT } from '../Actions/login';
 const initialState = {
     isLoggedIn : false,
     users: {} , 
     authedUser: '' 
 }
 
-const loginReducer = (state = initialState, action) => {
+const login = (state = initialState, action) => {
     switch (action.type) {
-      case 'USER_LOGIN':
+      case USER_LOGIN:
         return {
           ...state,
           isLoggedIn: !state.isLoggedIn
         };
-      case 'USER_LOGOUT':
+      case USER_LOGOUT:
         return {
           ...state,
           isLoggedIn: !state.isLoggedIn
@@ -22,5 +22,5 @@ const loginReducer = (state = initialState, action) => {
     }
   }
 
-  export default loginReducer
+  export default login
 
