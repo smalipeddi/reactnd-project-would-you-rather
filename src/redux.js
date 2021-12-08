@@ -66,7 +66,7 @@ export function receiveUsers(users) {
 // reducers.js
 
 
-const user = (state = initialState, action) => {
+const userLogginStatus = (state = initialState, action) => {
   switch (action.type) {
     case USER_LOGIN:
       return {
@@ -87,16 +87,16 @@ const user = (state = initialState, action) => {
 
 
 
-// export const user = (state = {}, action) => {
-//   switch (action.type) {
-//     case 'USER_SIGNIN':
-//       return action.user;
-//     case 'USER_SIGNOUT':
-//       return {};
-//     default:
-//       return state;
-//   }
-// };
+export const user = (state = {}, action) => {
+  switch (action.type) {
+    case 'USER_SIGNIN':
+      return action.user;
+    case 'USER_SIGNOUT':
+      return {};
+    default:
+      return state;
+  }
+};
 
 export const authedUser  = (state = null , action) => {
   switch(action.type) {
@@ -135,7 +135,8 @@ export default handleInitialData;
 export const reducers = combineReducers({
   user,
   users,
-  authedUser
+  authedUser,
+  userLogginStatus
 });
 
 // store.js

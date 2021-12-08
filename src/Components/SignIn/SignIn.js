@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react';
-import { login, setAuthedUser} from '../../redux';
+import { login, receiveUsers, setAuthedUser} from '../../redux';
 import { useDispatch, useSelector } from 'react-redux'
 
 import getInitialData from "../../utils/api";
@@ -24,7 +24,8 @@ const authedUser = useSelector((state) => state.authedUser)
     }
 
     let handleSubmit = () => {
-       dispatch(login)
+       dispatch(login(true))
+     
     }
 
     useEffect(() => {
@@ -33,6 +34,7 @@ const authedUser = useSelector((state) => state.authedUser)
         .then(users => {
           if (mounted) {
             setList(users)
+            dispatch(receiveUsers(users))
           }
         })
       return () => mounted = false;
@@ -65,11 +67,13 @@ function mapStateToProps({ user, users , authedUser, isLoggedIn}) {
     users: users,
     authedUser : authedUser,
     isLoggedIn: isLoggedIn
+    
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+   
     setAuthedUser: () => dispatch(setAuthedUser),
     login: () => dispatch(login)
   }

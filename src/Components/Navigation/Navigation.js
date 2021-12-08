@@ -21,8 +21,7 @@ function Navigation(props) {
   console.log("nav props",props);
 
     const handleLogout = () => {
-      dispatch(logout)
-
+      dispatch(logout(false))
     }
 
   
