@@ -1,162 +1,78 @@
-import React from 'react';
-import { connect } from 'react-redux';
-<<<<<<< HEAD
-import { setAuthedUser } from "../../Actions/authedUser";
-import { receiveUsers } from '../../Actions/users';
-import Navigation from "../Navigation/Navigation";
-class SignIn extends React.Component {
-    constructor(props) {
-        super(props);
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { useState, useEffect } from 'react';
+import { login, setAuthedUser} from '../../redux';
+import { useDispatch, useSelector } from 'react-redux'
 
+import getInitialData from "../../utils/api";
+export const SET_AUTHED_USER = 'SET_AUTHED_USER'
+export const RECEIVE_USERS = 'RECEIVE_USERS'
 
+function SignIn(props) {
 
+const authedUser = useSelector((state) => state.authedUser)
 
-        this.state = {
-            users: props.users, //provided by connect@mapStateToProps
-            isLoggedIn: props.isLoggedIn
-        };
-        console.log("malli", this.state.users);
+  const dispatch = useDispatch()
+  const [list, setList] = useState([]);
+    console.log("nav props",props);
+    console.log(props.authedUser);
+    
+    let handleChange = (e) => {
+      console.log(e.target.value);
+      console.log(props.authedUser);
+      dispatch(setAuthedUser(e.target.value))
     }
 
-
-
-
-    getIdsOfUsers = () => {
-        let res = this.props.users;
-        return res;
-    }
-    handleUserChange = (e) => {
-        //  setName(e.target.value)
+    let handleSubmit = () => {
+       dispatch(login)
     }
 
-    loginUser = (e) => {
-        e.preventDefault();
-        const name = this.input.value;
-        console.log("hello there", name);
-        this.input.value = '';
-    }
+    useEffect(() => {
+      let mounted = true;
+      const users = getInitialData()
+        .then(users => {
+          if (mounted) {
+            setList(users)
+          }
+        })
+      return () => mounted = false;
+    }, []);
 
-    render() {
-        return ( <
-            div >
-            <
-            h1 > Sign In < /h1> <
-            input type = "text"
-            placeholder = "User Name"
-            value = { this.props.user }
-            ref = {
-                (input) => this.input = input }
-            />
+  const names = Object.values(list);
+  
+  names.forEach(n => {
+      Object.values(n).forEach(details => {
+      console.log(details);
+      var option = document.createElement("option");
+      option.text = details.name
+      option.value = details.id
+      var select = document.getElementById("select");
+      select.appendChild(option);
+    })
+  })
 
-            <
-            button onClick = { this.props.authedUser } > Sign In < /button> <
-            /div>
-        )
-    }
+  return (<div id="users">
+    <select id="select" onChange={handleChange}>
+    </select>
+    <button onClick={handleSubmit}> SUBMIT </button>
+  </div>)
 }
-=======
-import {setAuthedUser} from "../../Actions/authedUser";
-import { receiveUsers } from '../../Actions/users';
-import Navigation from "../Navigation/Navigation";
-class SignIn extends React.Component{
-  constructor(props) {
-    super(props);
-
-    
-    
-
-    this.state = {
-        users: props.users, //provided by connect@mapStateToProps
-        isLoggedIn: props.isLoggedIn
-    };
-    console.log("malli",this.state.users);
-  }
-  
- 
-
-
-   getIdsOfUsers = () => {
-     let res = this.props.users;
-     console.log("fuck me",res);
-     return res;
-   }
-   handleUserChange = (e) => {
-  //  setName(e.target.value)
-  }
-  
-   loginUser = (e) => {
-        e.preventDefault();
-        const name= this.input.value;
-        console.log("hello there", name);
-        this.input.value = '';
-    }
-   
-    render() {
-      return(
-        <div>
-         <h1> Sign In </h1>
-            <input type="text" placeholder="User Name" value={this.props.user} ref={(input) => this.input = input}/>
-           
-             <button onClick ={this.props.authedUser}> Sign In </button>
-          </div>
-      )
-    }
-  }
->>>>>>> 57debdb554da4c27d4348915ce4428d6e99dc58f
-
-// function mapStateToProps(state) {
-//   console.log("sunitha in signin", state);
-//   return {
-//     authedUser: state.authedUser,
-//     users: state.users,
-//     isLoggedIn: state.isLoggedIn
-//   }
-// }
-
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     authedUser: () => dispatch(setAuthedUser()),
-//     users: () => dispatch(receiveUsers())
-
-//   }
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
-
 
 // AppContainer.js
-const mapStateToProps = state => ({
-<<<<<<< HEAD
-    // authedUser: state.authedUser,
-    // users: state.users,
-    // isLoggedIn: state.isLoggedIn
-});
+function mapStateToProps({ user, users , authedUser, isLoggedIn}) {
+  return {
+    user: user,
+    users: users,
+    authedUser : authedUser,
+    isLoggedIn: isLoggedIn
+  }
+}
 
-const mapDispatchToProps = {
-    // setAuthedUser,
-    // receiveUsers
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAuthedUser: () => dispatch(setAuthedUser),
+    login: () => dispatch(login)
+  }
 };
 
-const SignInContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignIn);
-
-export default SignInContainer;
-=======
-  // authedUser: state.authedUser,
-  // users: state.users,
-  // isLoggedIn: state.isLoggedIn
-});
-
-const mapDispatchToProps = {
-  // setAuthedUser,
-  // receiveUsers
-};
-
-const SignInContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignIn);
-
-export default SignInContainer;
->>>>>>> 57debdb554da4c27d4348915ce4428d6e99dc58f
+export default connect(mapStateToProps,mapDispatchToProps)(SignIn);

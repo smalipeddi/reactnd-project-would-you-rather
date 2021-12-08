@@ -1,10 +1,44 @@
-import { combineReducers, createStore } from 'redux';
-//import { RECEIVE_USERS } from '../Actions/users';
+import { combineReducers, createStore , applyMiddleware } from 'redux';
+
+import middleware  from "./Middleware"
+import getInitialData  from './utils/api'
+
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
+const AUTHED_ID = 'tylermcginnis';
 
 
 // actions.js
+
+export const USER_LOGIN = 'USER_LOGIN'
+export const USER_LOGOUT = 'USER_LOGOUT'
+
+
+const initialState = {
+    isLoggedIn : false,
+    users: {} , 
+    authedUser: '' 
+}
+
+
+
+
+export function login (isLoggedIn) {
+    return {
+      type: USER_LOGIN,
+      isLoggedIn,
+    }
+}
+
+export function logout (isLoggedIn) {
+    return {
+      type: USER_LOGOUT,
+      isLoggedIn,
+    }
+}
+
+
+
 export const signInUser = user => ({
   type: 'USER_SIGNIN',
   user,
@@ -30,16 +64,39 @@ export function receiveUsers(users) {
 }
 
 // reducers.js
-export const user = (state = {}, action) => {
+
+
+const user = (state = initialState, action) => {
   switch (action.type) {
-    case 'USER_SIGNIN':
-      return action.user;
-    case 'USER_SIGNOUT':
-      return {};
+    case USER_LOGIN:
+      return {
+        ...state,
+        isLoggedIn: true
+      };
+    case USER_LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false
+      };
     default:
-      return state;
+      return state
   }
-};
+}
+
+
+
+
+
+// export const user = (state = {}, action) => {
+//   switch (action.type) {
+//     case 'USER_SIGNIN':
+//       return action.user;
+//     case 'USER_SIGNOUT':
+//       return {};
+//     default:
+//       return state;
+//   }
+// };
 
 export const authedUser  = (state = null , action) => {
   switch(action.type) {
@@ -62,16 +119,28 @@ export const users = (state = {} , action) => {
     }
 }
 
+//thunk for asynchonous data access
+export function handleInitialData () {
+    return (dispatch) => {
+        return getInitialData().then(users => {
+     
+         dispatch(receiveUsers(users));
+         dispatch(setAuthedUser(AUTHED_ID));
+        })
+    }
+}
+
+export default handleInitialData;
 
 export const reducers = combineReducers({
   user,
   users,
-  authedUser,
+  authedUser
 });
 
 // store.js
 export function configureStore(initialState = {}) {
-  const store = createStore(reducers, initialState);
+  const store = createStore(reducers, middleware);
   return store;
 }
 

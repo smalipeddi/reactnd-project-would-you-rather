@@ -16,7 +16,7 @@ class AppContainer extends React.Component {
     return (
       <Context.Consumer>
         {(store) => (
-          <AppContainer store={store} />
+          <App store={store} />
         )}
       </Context.Consumer>
     )
@@ -27,7 +27,7 @@ ReactDOM.render(
   
 
     <Provider store={store}>
-   <AppContainer />
+   <App />
     </Provider>
    ,
   

@@ -1,45 +1,17 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
-
-import { signInUser, signOutUser, setAuthedUser, receiveUsers } from './redux';
+import SignIn from './Components/SignIn/SignIn'
+import Navigation from './Components/Navigation/Navigation'
+import { setAuthedUser, receiveUsers, login,logout } from './redux';
 
 // App.js
 export class App extends React.Component {
   render() {
-    console.log("anu", this.props.user);
+    const {users ,authedUser , user } = this.props
     return (
       <div>
-        <h1>{this.props.user.title || 'Hello World!'}</h1>
-
-        {
-        this.props.user.title ? 
-        (
-          <button onClick={this.props.signOutUser}>Exit user</button>
-        ) : 
-        (
-          <button
-            onClick={() =>
-              this.props.signInUser({ title: 'I am a geo dude!' })
-            }
-          >
-            Click Me!
-          </button>
-        )}
-
-
-{
-        this.props.users ? 
-        (
-          <h1>{this.props.users[0]}</h1>
-        ) : 
-        (
-          <h1>{this.props.users[0]}</h1>
-         
-        )}
-        
-        
-
+        <Navigation />
+        <SignIn />
       </div>
     );
   }
@@ -48,15 +20,15 @@ export class App extends React.Component {
 // AppContainer.js
 const mapStateToProps = state => ({
   user: state.user,
-  users: state.users
+  users: state.users,
+  authedUser: state.authedUser
 });
 
 const mapDispatchToProps = {
-  signInUser,
-  signOutUser,
+  receiveUsers,
   setAuthedUser,
-  receiveUsers
-
+  login,
+  logout
 };
 
 const AppContainer = connect(
