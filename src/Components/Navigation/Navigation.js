@@ -4,12 +4,11 @@ import NewQueston from "../NewQuestion/newQuestion";
 import SignIn from "../SignIn/SignIn";
 import LeaderBoard from "../LeaderBoard/LeaderBoard"
 import { connect } from 'react-redux'
-import { login, logout, setAuthedUser} from '../../redux';
+import { logout,login,  setAuthedUser, userLoginStatus} from '../../redux';
 import { useDispatch, useSelector } from 'react-redux'
-
+import { useNavigate } from 'react-router-dom'
 
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Link
@@ -18,16 +17,16 @@ import {
 
 function Navigation(props) {
   const dispatch = useDispatch()
-  console.log("nav props",props);
+  const navigate = useNavigate();
 
     const handleLogout = () => {
-      dispatch(logout(false))
+      dispatch(logout(true))
+      navigate('/')
     }
 
-  
     return (
+    
       <div id="nav">
-        <Router>
           <div>
             <ul>
               <li>
@@ -42,11 +41,11 @@ function Navigation(props) {
             </ul>
             <hr />
           </div>
-        </Router>
-        <div >
-          <div className="userName" >  {props.authedUser} </div>
-          <button className="logout" onClick={handleLogout}> LOGOUT </button>
-        </div>
+          {props.userLoginStatus? (
+        <div>
+        <div className="userName" > {props.authedUser} </div>
+          <button className="logout" onClick={handleLogout}> LOGOUT </button> 
+        </div>): ''}
       </div>
     )
   
@@ -55,15 +54,13 @@ function Navigation(props) {
 function mapStateToProps({ users , authedUser, isLoggedIn}) {
   return {
     authedUser : authedUser,
-    isLoggedIn: isLoggedIn
+    userLoginStatus: userLoginStatus
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-  
     setAuthedUser: () => dispatch(setAuthedUser),
-    login: () => dispatch(login),
     logout: () => dispatch(logout)
   }
 };

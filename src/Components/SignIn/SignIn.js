@@ -1,82 +1,87 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react';
-import { login, receiveUsers, setAuthedUser} from '../../redux';
+import { login, logout, receiveUsers, setAuthedUser,  users, userLoginStatus } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux'
-
-import getInitialData from "../../utils/api";
+import Navigation from "../Navigation/Navigation"
+import getInitialData from "../../utils/api"
+import { useNavigate } from 'react-router-dom'
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
-export const RECEIVE_USERS = 'RECEIVE_USERS'
+
 
 function SignIn(props) {
 
-const authedUser = useSelector((state) => state.authedUser)
-
+  const authedUser = useSelector((state) => state.authedUser)
+  const isLoggedIn = useSelector((state) => state.isLoggedIn)
   const dispatch = useDispatch()
   const [list, setList] = useState([]);
-    console.log("nav props",props);
-    console.log(props.authedUser);
-    
-    let handleChange = (e) => {
-      console.log(e.target.value);
-      console.log(props.authedUser);
-      dispatch(setAuthedUser(e.target.value))
-    }
+  const navigate = useNavigate();
 
-    let handleSubmit = () => {
-       dispatch(login(true))
-     
-    }
+  let handleChange = (e) => {
+    dispatch(setAuthedUser(e.target.value))
+  }
 
-    useEffect(() => {
-      let mounted = true;
-      const users = getInitialData()
-        .then(users => {
-          if (mounted) {
-            setList(users)
-            dispatch(receiveUsers(users))
-          }
-        })
-      return () => mounted = false;
-    }, []);
+  let handleSubmit = (e) => {
+    dispatch(login(true))
+    navigate('/home')
+  }
+
+  useEffect(() => {
+    let mounted = true;
+    getInitialData()
+      .then(users => {
+        if (mounted) {
+          setList(users)
+          dispatch(receiveUsers(users))
+        }
+      })
+    return () => mounted = false;
+  }, []);
 
   const names = Object.values(list);
-  
+
+  var select = document.getElementById("select");
+
   names.forEach(n => {
-      Object.values(n).forEach(details => {
-      console.log(details);
-      var option = document.createElement("option");
-      option.text = details.name
+    Object.values(n).forEach(details => {
+      // Use the Option constructor: args text, value, defaultSelected, selected
+      var option = new Option('text', 'value', false, false);
+
+      // Use createElement to add an option:
+      option = document.createElement('option');
       option.value = details.id
-      var select = document.getElementById("select");
+      option.text = details.name
       select.appendChild(option);
     })
   })
 
-  return (<div id="users">
-    <select id="select" onChange={handleChange}>
+  return (<div className="container">
+    <Navigation />
+    <div className="jumbotron">
+      <h1> Welcone to the Would you rather App.</h1>
+      < h2> Please Sign In to continue</h2>
+    </div>
+    <select id="select" className="form-select" aria-label="Default select example" onChange={handleChange}>
     </select>
-    <button onClick={handleSubmit}> SUBMIT </button>
+    <button onClick={handleSubmit} id="submit-button" type="button" className="btn btn-primary"> SUBMIT </button>
   </div>)
 }
 
 // AppContainer.js
-function mapStateToProps({ user, users , authedUser, isLoggedIn}) {
+function mapStateToProps({ users, authedUser, isLoggedIn }) {
   return {
-    user: user,
     users: users,
-    authedUser : authedUser,
-    isLoggedIn: isLoggedIn
-    
+    authedUser: authedUser,
+    userLoginStatus: userLoginStatus
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-   
-    setAuthedUser: () => dispatch(setAuthedUser),
-    login: () => dispatch(login)
+    users: () => dispatch(users),
+    login: () => dispatch(login),
+    setAuthedUser: () => dispatch(setAuthedUser)
   }
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

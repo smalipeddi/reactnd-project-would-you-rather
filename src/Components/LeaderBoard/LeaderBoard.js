@@ -1,15 +1,37 @@
 import React, { Component } from 'react';
-import Navigation from "../Navigation/Navigation";
+import { connect } from 'react-redux'
+import { useState, useEffect } from 'react';
+import { login, receiveUsers, setAuthedUser } from '../../redux';
+import Navigation from '../Navigation/Navigation'
+import { useDispatch, useSelector } from 'react-redux'
 
-class LeaderBoard extends Component {
-    render() {
-        return (
-            <div>
-                <Navigation />
+import getInitialData from "../../utils/api";
+export const SET_AUTHED_USER = 'SET_AUTHED_USER'
+export const RECEIVE_USERS = 'RECEIVE_USERS'
 
-            </div>
-        )
-    }
+function LeaderBoard(props) {
+
+  const dispatch = useDispatch()
+  const [list, setList] = useState([]);
+
+  return (<div id="users">
+    <Navigation />
+    <h1> leader baord is here</h1>
+  </div>)
 }
 
-export default LeaderBoard
+// AppContainer.js
+function mapStateToProps({ user, users, authedUser, isLoggedIn }) {
+  return {
+    users: users,
+    authedUser: authedUser,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setAuthedUser: () => dispatch(setAuthedUser)
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeaderBoard)

@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 //import App from './App-inprogress';
-import { Provider }  from 'react-redux';
+import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 //import store from './store';
 import { store } from './redux';
 import App from "./App"
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import bootstrap from 'bootstrap'
 
 const Context = React.createContext();
 
@@ -24,13 +25,15 @@ class AppContainer extends React.Component {
 }
 
 ReactDOM.render(
-  
 
-    <Provider store={store}>
-   <App />
-    </Provider>
-   ,
-  
+
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>
+  ,
+
   document.getElementById('root')
 );
 

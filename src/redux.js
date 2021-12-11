@@ -1,25 +1,15 @@
 import { combineReducers, createStore , applyMiddleware } from 'redux';
-
 import middleware  from "./Middleware"
 import getInitialData  from './utils/api'
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
-const AUTHED_ID = 'tylermcginnis';
-
-
-// actions.js
-
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGOUT = 'USER_LOGOUT'
 
+const AUTHED_ID = 'tylermcginnis';
 
-const initialState = {
-    isLoggedIn : false,
-    users: {} , 
-    authedUser: '' 
-}
-
+// actions.js
 
 
 
@@ -36,18 +26,6 @@ export function logout (isLoggedIn) {
       isLoggedIn,
     }
 }
-
-
-
-export const signInUser = user => ({
-  type: 'USER_SIGNIN',
-  user,
-});
-
-export const signOutUser = () => ({
-  type: 'USER_SIGNOUT',
-});
-
 
 export function setAuthedUser (id) {
     return {
@@ -66,56 +44,46 @@ export function receiveUsers(users) {
 // reducers.js
 
 
-const userLogginStatus = (state = initialState, action) => {
-  switch (action.type) {
+export const userLoginStatus = (state = null, action) => {
+  switch(action.type) {
     case USER_LOGIN:
-      return {
-        ...state,
-        isLoggedIn: true
-      };
+      return action.isLoggedIn
     case USER_LOGOUT:
-      return {
-        ...state,
-        isLoggedIn: false
-      };
+      return !(action.isLoggedIn)
     default:
       return state
   }
 }
 
+// export const user = (state = {}, action) => {
+//   switch (action.type) {
+//     case 'USER_SIGNIN':
+//       return action.user;
+//     case 'USER_SIGNOUT':
+//       return {};
+//     default:
+//       return state;
+//   }
+// };
 
-
-
-
-export const user = (state = {}, action) => {
-  switch (action.type) {
-    case 'USER_SIGNIN':
-      return action.user;
-    case 'USER_SIGNOUT':
-      return {};
-    default:
-      return state;
-  }
-};
-
-export const authedUser  = (state = null , action) => {
+export const authedUser = (state = null , action) => {
   switch(action.type) {
-      case SET_AUTHED_USER: 
+      case SET_AUTHED_USER:
           return action.id
-      default: 
+      default:
           return state
   }
 }
 
 export const users = (state = {} , action) => {
     switch(action.type) {
-        case RECEIVE_USERS: 
-        return {
-            ...state,
-            ...action.users
-        }
-        default: 
-        return state
+        case RECEIVE_USERS:
+          return {
+              ...state,
+              ...action.users
+          }
+        default:
+          return state
     }
 }
 
@@ -123,9 +91,9 @@ export const users = (state = {} , action) => {
 export function handleInitialData () {
     return (dispatch) => {
         return getInitialData().then(users => {
-     
          dispatch(receiveUsers(users));
          dispatch(setAuthedUser(AUTHED_ID));
+         dispatch(userLoginStatus(false))
         })
     }
 }
@@ -133,10 +101,10 @@ export function handleInitialData () {
 export default handleInitialData;
 
 export const reducers = combineReducers({
-  user,
+ 
   users,
   authedUser,
-  userLogginStatus
+  userLoginStatus
 });
 
 // store.js
