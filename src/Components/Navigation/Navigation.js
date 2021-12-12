@@ -10,12 +10,15 @@ import {
   Link
 } from "react-router-dom";
 
+const AUTHED_USER= null
 
 function Navigation(props) {
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
     const handleLogout = () => {
+      // reset authed user
+      dispatch(setAuthedUser(AUTHED_USER));
       dispatch(logout(true))
       navigate('/')
     }

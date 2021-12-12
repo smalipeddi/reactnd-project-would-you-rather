@@ -17,13 +17,19 @@ function SignIn(props) {
   const [list, setList] = useState([]);
   const navigate = useNavigate();
 
+  let handleChange = (e) => {
+    dispatch(setAuthedUser(e.target.value));
+  }
+
+
   let handleSubmit = (e) => {
   
-    const selecteOption = document.getElementById("select");
-  
-    dispatch(setAuthedUser(selecteOption.value))
-    dispatch(login(true))
-    navigate('/home')
+    if(authedUser) {
+      dispatch(login(true))
+      navigate('/home')
+    } else {
+       alert("select user");
+    }
   }
 
   useEffect(() => {
@@ -38,18 +44,14 @@ function SignIn(props) {
     return () => mounted = false;
   }, []);
 
-  const names = Object.values(list);
-  console.log("anand", names);
-
-  
-
   return (<div className="container">
     <Navigation />
     <div className="jumbotron">
       <h1> Welcone to the Would you rather App.</h1>
       < h2> Please Sign In to continue</h2>
     </div>
-    <select id="select" className="form-select">
+    <select id="select" className="form-select" defaultValue={'none'}
+        onChange={handleChange}>
       {Object.keys(list).map(key => <option key={key} value={key}>{list[key].name}</option>)}
     </select>
     <button onClick={handleSubmit} id="submit-button" type="button" className="btn btn-primary"> SUBMIT </button>

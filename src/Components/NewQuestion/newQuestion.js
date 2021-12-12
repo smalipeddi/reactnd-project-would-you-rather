@@ -22,13 +22,30 @@ class NewQuestion extends React.Component {
         this.handleFirstOption = this.handleFirstOption.bind(this)
         this.handleSecondOption = this.handleSecondOption.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-        console.log("sunitha all state", this.state);
-        console.log("sunitha all props", this.props);
+    }
+
+    componentDidMount() {
+        const author = {
+
+            ...this.state,
+
+            question: {
+
+                ...this.state.question,
+
+                author: this.props.authedUser
+            }
+        }
+        this.setState(author);
+
+        console.log("sunitha in new qustion", this.state);
+        console.log("sunitha in new qustion", this.props);
+
     }
 
     handleFirstOption = (e) => {
 
-        const question1 = {
+        const optionOneText = {
             // copy state
             ...this.state,
             // overwrite question
@@ -39,94 +56,73 @@ class NewQuestion extends React.Component {
                 optionOne: e.target.value
             }
         }
-
-        this.setState(question1);
-       
+        this.setState(optionOneText);
     }
 
     handleSecondOption = (e) => {
-       const question2 = {
-           
+        const optionTwoText = {
+
             ...this.state,
-          
+
             question: {
-                
+
                 ...this.state.question,
-               
+
                 optionTwo: e.target.value
             }
         }
-        this.setState(question2);
-        
-
+        this.setState(optionTwoText);
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log("sunitha", this.props.authedUser);
-        // add author to the question 
-        const author = {
-           
-            ...this.state,
-          
-            question: {
-                
-                ...this.state.question,
-               
-                author: this.props.authedUser
-            }
-        }
-        this.setState(author);
-        console.log("madhu",this.state);
         this.props.saveQuestion(this.state.question);
-        
-        console.log("anitha", this.state);
     }
-
 
     render() {
         return (<div>
             <Navigation />
-            <form onSubmit={this.handleSubmit}>
-                <label></label>
-                <br />
-                <input
-                    name='firstOption'
-                    type='text'
-                    onChange={this.handleFirstOption}
-
-                />
-                <br />
-                <label>First Option</label>
-                <br />
-                <input
-                    name='secondOption'
-                    type='text'
-                    onChange={this.handleSecondOption}
-
-                />
-                <br />
-                <label>Second Option</label>
-                <br />
-
-                <button>Submit</button>
-            </form>
-        </div>)
+            <div> {this.props.authedUser}</div>
+            {this.props.authedUser ? (
+                <div>
+                    <h1>Create New Question</h1>
+                    <p>Comptet the Question:</p>
+                    <div>Would you rather - </div>
+                    <form onSubmit={this.handleSubmit}>
+                        <label></label>
+                        <br />
+                        <input
+                            name='firstOption'
+                            type='text'
+                            onChange={this.handleFirstOption}
+                        />
+                        <br />
+                        <span>OR</span>
+                        <br />
+                        <input
+                            name='secondOption'
+                            type='text'
+                            onChange={this.handleSecondOption}
+                        />
+                        <br />
+                        <br />
+                        <button>Submit</button>
+                    </form></div>) : (<div> Please Sign In to add New Question</div>)}
+            </div>)
     }
-
 }
- // AppContainer.js
+// AppContainer.js
 function mapStateToProps(state) {
-    console.log("hello",state);
-    return {
-      authedUser: state.authedUser,
-    }
-  }
 
-  const mapDispatchToProps = (dispatch) => {
+    return {
+        authedUser: state.authedUser,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
     return {
         saveQuestion,
     }
-  };
+};
 
-export default connect(mapStateToProps,mapDispatchToProps)(NewQuestion)
+export default connect(mapStateToProps, mapDispatchToProps)(NewQuestion)

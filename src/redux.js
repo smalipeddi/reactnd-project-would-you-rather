@@ -11,6 +11,7 @@ export const ADD_OPTION1 = 'ADD_OPTION1'
 export const ADD_OPTION2 = 'ADD_OPTION2'
 export const ADD_QUESTION = 'ADD_QUESTION'
 export const SAVE_QUESTION = 'SAVE_QUESTION'
+export const SAVE_POLL = 'SAVE_POLL'
 
 
 const AUTHED_ID = 'tylermcginnis';
@@ -59,10 +60,10 @@ export function getSecondOption(q2) {
   }
 }
 
-export function addQuestion( q1,q2 ) {
+export function addQuestion( q1,q2 ,authedUser) {
   return {
     type: ADD_QUESTION,
-    payload: [q1,q2]
+    payload: [q1,q2, authedUser]
   }
 }
 
@@ -70,6 +71,13 @@ export function saveQuestion(question) {
   return {
     type: SAVE_QUESTION,
     question
+  }
+}
+
+export function savePoll(poll) {
+  return {
+    type: SAVE_POLL,
+    poll
   }
 }
 
@@ -97,13 +105,25 @@ export const Question = (state = initialNewQuestionState, action) => {
     case 'ADD_QUESTION':
       const question = {...state.question, question}
       return {
-       
         ...state.question
-        
       }
     default:
       return state
   }
+}
+
+// const initialPoll = {
+//   voteCounter: 0
+// }
+export const savePollByUser = (state = {} , action) => {
+  switch(action.type) {
+    case 'SAVE_POLL':
+      return {
+        state
+
+      }
+  }
+
 }
 
 export const userLoginStatus = (state = null, action) => {

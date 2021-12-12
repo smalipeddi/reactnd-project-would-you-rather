@@ -6,6 +6,7 @@ import Navigation from '../Navigation/Navigation'
 import { useDispatch, useSelector } from 'react-redux'
 
 import getInitialData from "../../utils/api";
+import { timers } from 'jquery';
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
 
@@ -16,15 +17,16 @@ function LeaderBoard(props) {
 
   return (<div id="users">
     <Navigation />
-    <h1> leader baord is here</h1>
+    {props.authedUser ? ( <h1> leader baord is here</h1>) : (<div> Please login to view he leader board</div>)}
+   
   </div>)
 }
 
 // AppContainer.js
-function mapStateToProps({ user, users, authedUser, isLoggedIn }) {
+function mapStateToProps(state) {
   return {
-    users: users,
-    authedUser: authedUser,
+    users: state.users,
+    authedUser: state.authedUser,
   }
 }
 

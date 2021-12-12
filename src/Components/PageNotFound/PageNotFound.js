@@ -1,12 +1,30 @@
 import React from 'react'
 import Navigation from '../Navigation/Navigation'
-
-function PageNotFound() {
+import { connect } from 'react-redux'
+import { login, receiveUsers, setAuthedUser } from '../../redux';
+function PageNotFound(props) {
     return (<div>
         <Navigation />
-        <h1>Page Not Found</h1>
+        {props.authedUser? ( <h1>Page Not Found</h1>) : (<div>
+            Please Sign In again 
+        </div>  )}
+       
     </div>
 
     )
 }
-export default PageNotFound
+
+// AppContainer.js
+function mapStateToProps(state) {
+    return {
+      users: state.users,
+      authedUser: state.authedUser,
+    }
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      setAuthedUser: () => dispatch(setAuthedUser)
+    }
+  };
+export default connect(mapStateToProps,mapDispatchToProps)(PageNotFound)

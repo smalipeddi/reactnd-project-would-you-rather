@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SignIn from './Components/SignIn/SignIn'
 import Navigation from './Components/Navigation/Navigation'
-import NewQuestion from './Components/NewQuestion/newQuestion'
+import NewQuestion from './Components/NewQuestion/NewQuestion'
 import LeaderBoard from './Components/LeaderBoard/LeaderBoard'
 import PageNotFound from './Components/PageNotFound/PageNotFound'
 
