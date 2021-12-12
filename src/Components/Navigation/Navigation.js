@@ -1,11 +1,7 @@
 import React from 'react';
-import '../../App.css';
-import NewQueston from "../NewQuestion/newQuestion";
-import SignIn from "../SignIn/SignIn";
-import LeaderBoard from "../LeaderBoard/LeaderBoard"
-import { connect } from 'react-redux'
+import '../../App.css';import { connect } from 'react-redux'
 import { logout,login,  setAuthedUser, userLoginStatus} from '../../redux';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -51,10 +47,10 @@ function Navigation(props) {
   
 }
 // AppContainer.js
-function mapStateToProps({ users , authedUser, isLoggedIn}) {
+function mapStateToProps(state) {
   return {
-    authedUser : authedUser,
-    userLoginStatus: userLoginStatus
+    authedUser : state.authedUser,
+    userLoginStatus: state.userLoginStatus
   }
 }
 

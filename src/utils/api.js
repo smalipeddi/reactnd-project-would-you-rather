@@ -13,5 +13,15 @@ import {
       
     }))
   }
+
+  export function saveQuestions (question) {
+    return Promise.all([
+      _saveQuestion(question)
+    ]).then(([formattedQuestion]) => ({
+      formattedQuestion
+      
+    }))
+  }
+  
   
   
