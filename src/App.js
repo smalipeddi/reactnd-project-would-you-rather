@@ -5,6 +5,8 @@ import Navigation from './Components/Navigation/Navigation'
 import NewQuestion from './Components/NewQuestion/NewQuestion'
 import LeaderBoard from './Components/LeaderBoard/LeaderBoard'
 import PageNotFound from './Components/PageNotFound/PageNotFound'
+import Home from './Components/Home/Home'
+
 
 import Results from './Components/Results/Results'
 import { Route, Routes, Switch } from 'react-router-dom';
@@ -20,7 +22,7 @@ export class App extends React.Component {
           <Route exact path="/" element={<SignIn />} />
           <Route path="add" element={<NewQuestion />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
-          <Route path="/home" element={<Results />} />
+          <Route path="/home" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

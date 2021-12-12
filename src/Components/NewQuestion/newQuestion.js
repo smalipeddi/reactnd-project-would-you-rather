@@ -111,7 +111,7 @@ class NewQuestion extends React.Component {
             </div>)
     }
 }
-// AppContainer.js
+
 function mapStateToProps(state) {
 
     return {

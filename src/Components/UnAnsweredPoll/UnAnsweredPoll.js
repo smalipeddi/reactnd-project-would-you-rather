@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux'
 
 // will take the question and populate a ui with the two radio buttons which will vote 
-function UserPoll(props) {
+function UnAnsweredPoll(props) {
     return (
         <div>
+            <div>This is unAnswered poll</div>
             <img src="avatarURL" />
             <h1>id</h1>id: 'tylermcginnis',
             <div>Answered Questions  answers.length</div>
@@ -25,8 +26,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        savePoll: () => dispatch(savePoll)
+    //    savePoll: () => dispatch(savePoll)
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPoll)
+export default connect(mapStateToProps, mapDispatchToProps)(UnAnsweredPoll)

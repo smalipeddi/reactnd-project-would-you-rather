@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
 import Navigation from "../Navigation/Navigation";
-
+import { connect } from 'react-redux'
+import AnsweredPoll from "../AnsweredPoll/AnsweredPoll"
+import UnAnsweredPoll from "../UnAnsweredPoll/UnAnsweredPoll"
 class Home extends Component {
-    render() {
+    constructor(props){
+      super(props)
+
+      this.state = {
+        showUnAnsweredQuestions: true
+      }
+    }
+   
+   render() {
         return (
             <div>
                 <Navigation />
                 <div>
-                    <div onClick="showUnansweredQUestions">UNANSWERED QUESTIONS</div>
-                    <div onClick="showAnsweredQuestions">ANSWERED QUESTIONS</div>
+                    <button onClick={() => this.setState({showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions})}>UNANSWERED QUESTIONS</button>
+                    <button onClick={() => this.setState({showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions})}>ANSWERED QUESTIONS</button>
                 </div>
                 <div>
-                    // if conition is met to show first colum so first otherqwise seconds
-                    <div>
-                        // add list of users 
-                    </div>
+                    <div>{this.state.showUnAnsweredQuestions}</div>
+                    {this.state.showUnAnsweredQuestions ? ( <div> <UnAnsweredPoll /> </div>) : (<div><AnsweredPoll /></div>)}
                 </div>
 
             </div>
         )
     }
+  
 }
 
 export default Home

@@ -45,7 +45,7 @@ function SignIn(props) {
   }, []);
 
   return (<div className="container">
-    <Navigation />
+    
     <div className="jumbotron">
       <h1> Welcone to the Would you rather App.</h1>
       < h2> Please Sign In to continue</h2>
