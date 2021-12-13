@@ -2,26 +2,39 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
 // will take the question and populate a ui with the two radio buttons which will vote 
-function AnsweredPoll(props) {
-    return (
-        <div><div>This is answered poll</div>
-            <img src="avatarURL" />
-            <h1>id</h1>id: 'tylermcginnis',
-            <div>Answered Questions  answers.length</div>
-            <div> Created Questions questions.length</div>
-            <div>
-                <p>Score : answers.length + questions.length</p>
+class UnAnsweredPoll extends Component {
+   constructor(props)  {
+       super(props)
+
+   }
+
+   render() {
+       console.log("un answered props",this.props);
+       return (<div> HELLO SUNITHA 
+           {this.props.questions.map(q => (<div key={q.id}>
+             <div> {q.author} asks: </div>
+             <div>
+                 <div>avatar</div>
+                 <div><span>Would you rather</span> 
+                 <div>{q.optionOne.text}...</div></div>
+                 <button>View Poll</button>
             </div>
-        </div>
-    )
+            </div>
+           ))}
+       </div>)
+   }
 }
 
 function mapStateToProps(state) {
     return {
         question: state.question,
-        user: state.user
+        user: state.user,
+        questions: state.questions,
+        users: state.users,
+        authedUser: state.authedUser
     }
 }
+
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -29,4 +42,5 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnsweredPoll)
+//export default connect(mapStateToProps, mapDispatchToProps)(UnAnsweredPoll)
+export default UnAnsweredPoll

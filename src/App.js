@@ -8,7 +8,7 @@ import PageNotFound from './Components/PageNotFound/PageNotFound'
 import Home from './Components/Home/Home'
 
 
-import Results from './Components/Results/Results'
+import ViewPoll from './Components/ViewPoll/ViewPoll'
 import { Route, Routes, Switch } from 'react-router-dom';
 import { setAuthedUser, receiveUsers, login, logout } from './redux';
 
@@ -23,6 +23,8 @@ export class App extends React.Component {
           <Route path="add" element={<NewQuestion />} />
           <Route path="leaderboard" element={<LeaderBoard />} />
           <Route path="/home" element={<Home />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="/viewpoll" element={<ViewPoll />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

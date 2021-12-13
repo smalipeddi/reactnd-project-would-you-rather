@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navigation from "../Navigation/Navigation";
 import { connect } from 'react-redux'
+import { login, receiveUsers, setAuthedUser } from '../../redux';
 import AnsweredPoll from "../AnsweredPoll/AnsweredPoll"
 import UnAnsweredPoll from "../UnAnsweredPoll/UnAnsweredPoll"
 class Home extends Component {
@@ -8,11 +9,27 @@ class Home extends Component {
       super(props)
 
       this.state = {
-        showUnAnsweredQuestions: true
+        showUnAnsweredQuestions: true,
+        unAnsweredQuestions: [],
+        answeredQuestions: []
       }
     }
    
    render() {
+    const questions = Object.keys(this.props.questions);
+    console.log(questions);
+    const list = Object.values(this.props.questions)
+    const unAnsweredQuestions = []
+    const answeredQuestions = []
+    console.log("ninini", list);
+    // caterorize unanswered and answered questions by author
+    const users = list.map(l => {
+        if(l.optionOne.votes.includes(l.author) || l.optionTwo.votes.includes(l.author)){
+          answeredQuestions.push(l)
+        } else {
+         unAnsweredQuestions.push(l)
+        }
+     });
         return (
             <div>
                 <Navigation />
@@ -22,13 +39,27 @@ class Home extends Component {
                 </div>
                 <div>
                     <div>{this.state.showUnAnsweredQuestions}</div>
-                    {this.state.showUnAnsweredQuestions ? ( <div> <UnAnsweredPoll /> </div>) : (<div><AnsweredPoll /></div>)}
+                    {this.state.showUnAnsweredQuestions ? ( <div> <UnAnsweredPoll questions={unAnsweredQuestions}/> </div>) : (<div><AnsweredPoll questions={answeredQuestions} /></div>)}
                 </div>
-
             </div>
         )
     }
   
 }
 
-export default Home
+// AppContainer.js
+function mapStateToProps(state) {
+    return {
+      users: state.users,
+      questions: state.questions,
+      authedUser: state.authedUser,
+    }
+  }
+  
+  const mapDispatchToProps = (dispatch) => {
+    return {
+      setAuthedUser: () => dispatch(setAuthedUser)
+    }
+  };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -2,9 +2,11 @@ import { combineReducers, createStore, applyMiddleware } from 'redux';
 import middleware from "./Middleware"
 import getInitialData from './utils/api'
 import saveQuestions from './utils/api'
+import getQuestions from './utils/api'
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
+export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGOUT = 'USER_LOGOUT'
 export const ADD_OPTION1 = 'ADD_OPTION1'
@@ -43,6 +45,14 @@ export function receiveUsers(users) {
   return {
     type: RECEIVE_USERS,
     users
+  }
+}
+
+export function receiveQuestions(questions) {
+  return{
+    type: RECEIVE_QUESTIONS,
+    questions
+
   }
 }
 
@@ -169,16 +179,32 @@ export const users = (state = {}, action) => {
   }
 }
 
+export const questions = (state = {} , action) => {
+  switch(action.type) {
+    case RECEIVE_QUESTIONS:
+      return {
+        ...state, 
+        ...action.questions
+      }
+    default:
+      return state
+  }
+}
+
 //thunk for asynchonous data access
 export function handleInitialData() {
   return (dispatch) => {
-    return getInitialData().then(users => {
-      dispatch(receiveUsers(users));
+    return getInitialData().then(data => {
+      console.log("sunny1", data)
+      dispatch(receiveUsers(data.users));
       dispatch(setAuthedUser(AUTHED_ID));
-      dispatch(userLoginStatus(false))
+      dispatch(userLoginStatus(false));
+      dispatch(receiveQuestions(data.questions))
+
     })
   }
 }
+
 
 //thunk to save question 
 
@@ -195,6 +221,7 @@ export default handleInitialData;
 export const reducers = combineReducers({
 
   users,
+  questions,
   authedUser,
   userLoginStatus,
   Question

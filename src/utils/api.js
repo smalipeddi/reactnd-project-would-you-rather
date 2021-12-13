@@ -7,10 +7,9 @@ import {
   
   export default function getInitialData () {
     return Promise.all([
-      _getUsers()
-    ]).then(([users]) => ({
-      users
-      
+      _getUsers(),_getQuestions()
+    ]).then(([users,questions]) => ({
+      users, questions
     }))
   }
 

@@ -20,7 +20,7 @@ function Navigation(props) {
       // reset authed user
       dispatch(setAuthedUser(AUTHED_USER));
       dispatch(logout(true))
-      navigate('/')
+      navigate('/SignIn')
     }
 
     return (

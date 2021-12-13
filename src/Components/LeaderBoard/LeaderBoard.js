@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import getInitialData from "../../utils/api";
 import { timers } from 'jquery';
-export const SET_AUTHED_USER = 'SET_AUTHED_USER'
-export const RECEIVE_USERS = 'RECEIVE_USERS'
 
 function LeaderBoard(props) {
 
@@ -26,6 +24,7 @@ function LeaderBoard(props) {
 function mapStateToProps(state) {
   return {
     users: state.users,
+    questions: state.questions,
     authedUser: state.authedUser,
   }
 }
