@@ -20,10 +20,10 @@ export class App extends React.Component {
       <div className="container-fluid">
         <Routes>
           <Route exact path="/" element={<SignIn />} />
-          <Route path="add" element={<NewQuestion />} />
-          <Route path="leaderboard" element={<LeaderBoard />} />
           <Route path="/home" element={<Home />} />
-          <Route path="signin" element={<SignIn />} />
+          <Route path="/add" element={<NewQuestion />} />
+          <Route path="/leaderboard" element={<LeaderBoard />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/viewpoll" element={<ViewPoll />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
 
 // will take the question and populate a ui with the two radio buttons which will vote 
 class UnAnsweredPoll extends Component {
@@ -10,7 +9,7 @@ class UnAnsweredPoll extends Component {
 
    render() {
        console.log("un answered props",this.props);
-       return (<div> HELLO SUNITHA 
+       return (<div>  
            {this.props.questions.map(q => (<div key={q.id}>
              <div> {q.author} asks: </div>
              <div>
@@ -25,22 +24,4 @@ class UnAnsweredPoll extends Component {
    }
 }
 
-function mapStateToProps(state) {
-    return {
-        question: state.question,
-        user: state.user,
-        questions: state.questions,
-        users: state.users,
-        authedUser: state.authedUser
-    }
-}
-
-
-function mapDispatchToProps(dispatch) {
-    return {
-    //    savePoll: () => dispatch(savePoll)
-    }
-}
-
-//export default connect(mapStateToProps, mapDispatchToProps)(UnAnsweredPoll)
 export default UnAnsweredPoll

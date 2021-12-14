@@ -1,12 +1,10 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { connect } from 'react-redux'
-import { useState, useEffect } from 'react';
-import { login, receiveUsers, setAuthedUser } from '../../redux';
+import { useState } from 'react';
+import { setAuthedUser } from '../../redux';
 import Navigation from '../Navigation/Navigation'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-import getInitialData from "../../utils/api";
-import { timers } from 'jquery';
 
 function LeaderBoard(props) {
 

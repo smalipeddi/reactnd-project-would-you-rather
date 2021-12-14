@@ -1,19 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react';
-import { login, logout, receiveUsers, setAuthedUser, users, questions,serLoginStatus, receiveQuestions } from '../../redux';
+import { login, receiveUsers, setAuthedUser, users, questions,serLoginStatus, receiveQuestions } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux'
-import Navigation from "../Navigation/Navigation"
-import getInitialData  from "../../utils/api"
-import getQuestions  from "../../utils/api"
 import { useNavigate } from 'react-router-dom'
+import * as API from "../../_DATA" 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 
 
 function SignIn(props) {
 
   const authedUser = useSelector((state) => state.authedUser)
-  const isLoggedIn = useSelector((state) => state.isLoggedIn)
   const dispatch = useDispatch()
   const [userList, setList] = useState([]);
   const [questionList, setQuestions] = useState([])
@@ -22,7 +19,6 @@ function SignIn(props) {
   let handleChange = (e) => {
     dispatch(setAuthedUser(e.target.value));
   }
-
 
   let handleSubmit = (e) => {
   
@@ -36,34 +32,37 @@ function SignIn(props) {
 
   useEffect(() => {
     let mounted = true;
-    getInitialData()
+    API._getUsers()
       .then(data => {
         console.log("sunny",data);
         if (mounted) {
-          setList(data.users)
-          setQuestions(data.questions)
+          setList(data)
+        //  setQuestions(data)
           dispatch(receiveUsers(data.users))
-          dispatch(receiveQuestions(data.questions))
+        //  dispatch(receiveQuestions(data.questions))
         }
       })
     return () => mounted = false;
   }, []);
 
-  // useEffect(() => {
-  //   let mounted = true;
-  //   getQuestions()
-  //     .then(questions => {
-  //       if (mounted) {
-  //         setQuestions(questions)
-  //         dispatch(receiveQuestions(questions))
-  //         console.log(questions);
-  //       }
-  //     })
-  //   return () => mounted = false;
-  // }, []);
+  useEffect(() => {
+    let mounted = true;
+    API._getQuestions()
+      .then(data => {
+        console.log("sunny",data);
+        if (mounted) {
+         // setList(data)
+          setQuestions(data)
+        //  dispatch(receiveUsers(data.users))
+          dispatch(receiveQuestions(data))
+        }
+      })
+    return () => mounted = false;
+  }, []);
 
   return (<div className="container">
-    
+    <div className="col top"></div>
+    <div className="col">
     <div className="jumbotron">
       <h1> Welcome to the Would you rather App.</h1>
       < h2> Please Sign In to continue</h2>
@@ -74,7 +73,11 @@ function SignIn(props) {
       {Object.keys(userList).map(key => <option key={key} value={key}>{userList[key].name}</option>)}
     </select>
     <button onClick={handleSubmit} id="submit-button" type="button" className="btn btn-primary"> SUBMIT </button>
-  </div>)
+
+    </div>
+    <div className="col"></div>
+    </div>
+     )
 }
 
 // AppContainer.js

@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Navigation from "../Navigation/Navigation";
 import { connect } from 'react-redux'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import { getFirstOption, getSecondOption, addQuestion, setAuthedUser, saveQuestion } from '../../redux'
+import { saveQuestion } from '../../redux'
 
 class NewQuestion extends React.Component {
 
