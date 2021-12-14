@@ -1,7 +1,7 @@
 import React from 'react'
 import Navigation from '../Navigation/Navigation'
 import { connect } from 'react-redux'
-import { login, receiveUsers, setAuthedUser } from '../../redux';
+import { setAuthedUser } from '../../redux';
 function PageNotFound(props) {
     return (<div>
         <Navigation />

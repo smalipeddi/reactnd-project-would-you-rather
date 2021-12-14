@@ -8,21 +8,8 @@ import reportWebVitals from './reportWebVitals';
 import { store } from './redux';
 import App from "./App"
 import { BrowserRouter as Router } from "react-router-dom";
-import bootstrap from 'bootstrap'
 
 const Context = React.createContext();
-
-class AppContainer extends React.Component {
-  render() {
-    return (
-      <Context.Consumer>
-        {(store) => (
-          <App store={store} />
-        )}
-      </Context.Consumer>
-    )
-  }
-}
 
 ReactDOM.render(
 

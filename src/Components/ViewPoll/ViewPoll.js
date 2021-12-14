@@ -9,10 +9,6 @@ function ViewPoll(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleRadioChange = (value) => {
-    setCurrentValue(value);
-  };
-
   let onChangeValue = (e) => {
     console.log("sunitha in save poll ", props);
     console.log(e.target.value);
@@ -24,6 +20,7 @@ function ViewPoll(props) {
   };
 
   let saveAnswer = () => {
+
     navigate("/home");
   };
 
@@ -35,12 +32,15 @@ function ViewPoll(props) {
       <p>Comptet the Question</p>
       <div>Would You rather -</div>
       <div>
+        <form onSubmit={saveAnswer}>
         <input
           name="radio-item-1"
           value={JSON.stringify(props.question.optionOne.text)}
           type="radio"
           onChange={onChangeValue}
-          defaultChecked={currentRadioValue === "on"}
+          checked={currentRadioValue === JSON.stringify(props.question.optionOne.text)}
+          onChange={onChangeValue}
+
         />
         {JSON.stringify(props.question.optionOne.text)}
         <input
@@ -48,10 +48,11 @@ function ViewPoll(props) {
           value={JSON.stringify(props.question.optionTwo.text)}
           type="radio"
           onChange={onChangeValue}
-          defaultChecked={currentRadioValue === "off"}
+         
         />
         {JSON.stringify(props.question.optionTwo.text)}
         <button onSubmit={saveAnswer}>SUBMIT </button>
+        </form>
       </div>
     </div>
   );

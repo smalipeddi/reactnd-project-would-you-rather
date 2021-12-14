@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 
 // will take the question and populate a ui with the two radio buttons which will vote 
 class UnAnsweredPoll extends Component {
-   constructor(props)  {
-       super(props)
-
-   }
-
    render() {
        console.log("un answered props",this.props);
        return (<div>  

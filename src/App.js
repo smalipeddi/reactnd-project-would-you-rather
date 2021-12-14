@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SignIn from './Components/SignIn/SignIn'
-import Navigation from './Components/Navigation/Navigation'
 import NewQuestion from './Components/NewQuestion/NewQuestion'
 import LeaderBoard from './Components/LeaderBoard/LeaderBoard'
 import PageNotFound from './Components/PageNotFound/PageNotFound'
@@ -9,13 +8,12 @@ import Home from './Components/Home/Home'
 
 
 import ViewPoll from './Components/ViewPoll/ViewPoll'
-import { Route, Routes, Switch } from 'react-router-dom';
+import { Route, Routes} from 'react-router-dom';
 import { setAuthedUser, receiveUsers, login, logout } from './redux';
 
 // App.js
 export class App extends React.Component {
   render() {
-    const { users, authedUser, user } = this.props
     return (
       <div className="container-fluid">
         <Routes>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Navigation from "../Navigation/Navigation";
 import { connect } from "react-redux";
-import { login, receiveUsers, setAuthedUser } from "../../redux";
+import { setAuthedUser } from "../../redux";
 import AnsweredPoll from "../AnsweredPoll/AnsweredPoll";
 import UnAnsweredPoll from "../UnAnsweredPoll/UnAnsweredPoll";
 class Home extends Component {

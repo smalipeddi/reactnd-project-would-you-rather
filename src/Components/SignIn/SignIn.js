@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { useState, useEffect } from 'react';
-import { login, receiveUsers, setAuthedUser, users, questions,serLoginStatus, receiveQuestions } from '../../redux';
+import { login, receiveUsers, setAuthedUser, users, questions, receiveQuestions } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import * as API from "../../_DATA" 
@@ -34,12 +34,9 @@ function SignIn(props) {
     let mounted = true;
     API._getUsers()
       .then(data => {
-        console.log("sunny",data);
         if (mounted) {
           setList(data)
-        //  setQuestions(data)
           dispatch(receiveUsers(data.users))
-        //  dispatch(receiveQuestions(data.questions))
         }
       })
     return () => mounted = false;
@@ -49,11 +46,8 @@ function SignIn(props) {
     let mounted = true;
     API._getQuestions()
       .then(data => {
-        console.log("sunny",data);
         if (mounted) {
-         // setList(data)
           setQuestions(data)
-        //  dispatch(receiveUsers(data.users))
           dispatch(receiveQuestions(data))
         }
       })
