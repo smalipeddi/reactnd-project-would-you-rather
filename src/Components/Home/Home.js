@@ -2,83 +2,83 @@ import React, { Component } from "react";
 import Navigation from "../Navigation/Navigation";
 import { connect } from "react-redux";
 import { setAuthedUser } from "../../redux";
+import { Navigate } from 'react-router-dom'
 import AnsweredPoll from "../AnsweredPoll/AnsweredPoll";
 import UnAnsweredPoll from "../UnAnsweredPoll/UnAnsweredPoll";
 class Home extends Component {
-  constructor(props) {
-    super(props);
 
+  constructor(props) {
+    super(props)
+
+    // since this page is used to display content from the questions fetched, local state can be used to get
+    // un answered questions and answered questions 
     this.state = {
       showUnAnsweredQuestions: true,
       unAnsweredQuestions: [],
-      answeredQuestions: [],
-    };
+      answeredQuestions: []
+    }
   }
 
   render() {
-    console.log("sunitha authesUser", this.props.authedUser);
-    const questions = Object.keys(this.props.questions);
-    console.log(questions);
+    const { users, questions, authedUser } = this.props;
+
+    const user = users[authedUser];
     const list = Object.values(this.props.questions);
-    const unAnsweredQuestions = [];
-    const answeredQuestions = [];
-    console.log("ninini", list);
-    // caterorize unanswered and answered questions by author
-    const users = list.map((l) => {
-      if (
-        l.optionOne.votes.includes(l.author) ||
-        l.optionTwo.votes.includes(l.author)
-      ) {
-        answeredQuestions.push(l);
-      } else {
-        unAnsweredQuestions.push(l);
-      }
-    });
+
+    // find the answered question ids from answers for the logged in user
+    const answeredQuestionsByUser = Object.keys(user.answers).sort((a, b) => questions[b].timestamp - questions[a].timestamp);
+
+    // get te list of questions that were answered by authedUser
+    const answeredQuestions = Object.values(questions).filter(q => answeredQuestionsByUser.includes(q.id))
+
+    // get te list of questions that were un answered by authedUser
+    const unAnsweredQuestions = Object.values(questions).filter(q => !answeredQuestionsByUser.includes(q.id));
+
     return (
-
       <div className="container-fluid">
-      {this.props.authedUser ? (  <div>      <Navigation />
-
-        <div className="row align-items-start">
-        <div className="col"></div>
-        <div className="col">
-          <div>
-            <button
-              onClick={() =>
-                this.setState({
-                  showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
-                })
-              }
-            >
-              UNANSWERED QUESTIONS
+        {this.props.authedUser ? 
+          (<div> <Navigation />
+          <div className="row align-items-start">
+            <div className="col"></div>
+            <div className="col">
+              <div className="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" className="btn btn-outline-primary active"
+                  onClick={() =>
+                    this.setState({
+                      showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
+                    })
+                  }
+                >
+                  UNANSWERED QUESTIONS
             </button>
-            <button
-              onClick={() =>
-                this.setState({
-                  showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
-                })
-              }
-            >
-              ANSWERED QUESTIONS
+                <button ype="button" className="btn btn-outline-primary"
+                  onClick={() =>
+                    this.setState({
+                      showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
+                    })
+                  }
+                >
+                  ANSWERED QUESTIONS
             </button>
-          </div>
-          <div>
-            <div>{this.state.showUnAnsweredQuestions}</div>
-            {this.state.showUnAnsweredQuestions ? (
-              <div>
-                {" "}
-                <UnAnsweredPoll questions={unAnsweredQuestions} />{" "}
               </div>
-            ) : (
               <div>
-                <AnsweredPoll questions={answeredQuestions} />
+                <div>{this.state.showUnAnsweredQuestions}</div>
+                {this.state.showUnAnsweredQuestions ? (
+                  <div>
+                    {" "}
+                    <UnAnsweredPoll questions={unAnsweredQuestions} />{" "}
+                  </div>
+                ) : (
+                  <div>
+                    <AnsweredPoll questions={answeredQuestions} />
+                  </div>
+                )}
               </div>
-            )}
+            </div>
+            <div className="col"></div>
           </div>
-        </div>
-        <div className="col"></div>
-        </div>
-      </div>) : (<div> Please login !!! </div>) }
+        </div>) : (<Navigate to="/pagenotfound" />
+        )}
       </div>
     );
   }

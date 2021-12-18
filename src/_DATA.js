@@ -151,7 +151,7 @@ let users = {
     return new Promise((res, rej) => {
       const authedUser = question.author;
       const formattedQuestion = formatQuestion(question)
-  
+    
       setTimeout(() => {
         questions = {
           ...questions,

@@ -1,7 +1,8 @@
 import React from 'react';
 import Navigation from "../Navigation/Navigation";
 import { connect } from 'react-redux'
-import { saveQuestion } from '../../redux'
+import { addNewQuestion, authedUser, questions, saveNewQuestion } from '../../redux'
+import { Navigate } from 'react-router-dom';
 
 class NewQuestion extends React.Component {
 
@@ -30,13 +31,12 @@ class NewQuestion extends React.Component {
 
                 ...this.state.question,
 
-                author: this.props.authedUser
+                authedUser: this.props.authedUser
             }
         }
-        this.setState(author);
+        this.setState(authedUser);
 
-        console.log("sunitha in new qustion", this.state);
-        console.log("sunitha in new qustion", this.props);
+
 
     }
 
@@ -73,7 +73,9 @@ class NewQuestion extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.saveQuestion(this.state.question);
+        const { optionOne, optionTwo, authedUser } = this.state.question;
+        this.props.saveNewQuestion({ optionOne, optionTwo, authedUser });
+        // <Navigate to='/home' />
     }
 
     render() {
@@ -85,13 +87,13 @@ class NewQuestion extends React.Component {
                     <h1>Create New Question</h1>
                     <p>Comptet the Question:</p>
                     <div>Would you rather - </div>
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={() => this.handleSubmit}>
                         <label></label>
                         <br />
                         <input
                             name='firstOption'
                             type='text'
-                            onChange={this.handleFirstOption}
+                            onChange={() => this.handleFirstOption}
                         />
                         <br />
                         <span>OR</span>
@@ -99,26 +101,27 @@ class NewQuestion extends React.Component {
                         <input
                             name='secondOption'
                             type='text'
-                            onChange={this.handleSecondOption}
+                            onChange={() => this.handleSecondOption}
                         />
                         <br />
                         <br />
                         <button>Submit</button>
                     </form></div>) : (<div> Please Sign In to add New Question</div>)}
-            </div>)
+        </div>)
     }
 }
 
 function mapStateToProps(state) {
 
     return {
-        authedUser: state.authedUser,
+        authedUser,
+        questions
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveQuestion,
+        saveNewQuestion
     }
 };
 

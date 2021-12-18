@@ -1,6 +1,8 @@
 import { combineReducers, createStore } from 'redux';
-import * as API from "./_DATA"
+import {_getUsers, _getQuestions, _saveQuestion, _saveQuestionAnswer } from  "./_DATA"
 import middleware from "./Middleware"
+import { createReducer } from '@reduxjs/toolkit'
+import update from 'react-addons-update'
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
@@ -14,9 +16,10 @@ export const SAVE_QUESTION = 'SAVE_QUESTION'
 export const SAVE_POLL = 'SAVE_POLL'
 export const SHOW_QUESTION = 'SHOW_QUESTION'
 export const SAVE_QUESTION_ANSWER = 'SAVE_QUESTION_ANSWER'
+export const ADD_USER_QUESTION = 'ADD_USER_QUESTION'
 
 
-// actions.js
+/** ACTIONS  */
 
 export function login(isLoggedIn) {
   return {
@@ -24,6 +27,15 @@ export function login(isLoggedIn) {
     isLoggedIn,
   }
 }
+
+// new question 
+export function addNewQuestion( opt1, opt2, authedUser) {
+  return {
+    type: ADD_QUESTION,
+    opt1, opt2, authedUser
+  }
+}
+
 
 export function logout(isLoggedIn) {
   return {
@@ -46,6 +58,8 @@ export function receiveUsers(users) {
   }
 }
 
+//QUESTIONS REDUCERS 
+
 export function receiveQuestions(questions) {
   return{
     type: RECEIVE_QUESTIONS,
@@ -54,67 +68,32 @@ export function receiveQuestions(questions) {
   }
 }
 
-export function getFirstOption(q1) {
-  return {
-    type: ADD_OPTION1,
-    q1
-  }
-}
-
-export function getSecondOption(q2) {
-  return {
-    type: ADD_OPTION2,
-    q2
-  }
-}
-
-export function addQuestion( q1,q2 ,authedUser) {
-  return {
-    type: ADD_QUESTION,
-    payload: [q1,q2, authedUser]
-  }
-}
-
-export function saveQuestion1(question) {
+// // just to save to the new poll page on unanswered section
+export function saveQuestion(question) {
   return {
     type: SAVE_QUESTION,
     question
   }
 }
 
-export function saveQuestionAnswer1(authedUser,qid,question) {
+ export function saveQuestionAnswer1(authedUser,qid,answer) {
   return {
     type: SAVE_QUESTION_ANSWER,
-    payload: [authedUser,qid,question]
+    authedUser,qid,answer
   }
 }
 
 /**********************  REDUCERS  *************************/
 // reducers
 
-export const saveQuestionFromPoll = (state = {}, action) => {
-  switch (action.type) {
-    case ADD_QUESTION:
-      return {
-        ...state,
-        ...state.questions,action
-      }
-    default:
-      return state
+
+export function getUsers() {
+  return(dispatch) => {
+    return _getUsers.then(users => {
+      dispatch(receiveUsers(users))
+    })
   }
 }
-
-export const addQuestionbyUser = (state = {}, action) => {
-  switch (action.type) {
-    case ADD_QUESTION:
-      return {
-        action
-      }
-    default:
-      return state
-  }
-}
-
 
 export const userLoginStatus = (state = null, action) => {
   switch (action.type) {
@@ -144,10 +123,38 @@ export const users = (state = {}, action) => {
         ...state,
         ...action.users
       }
+      case ADD_USER_QUESTION :
+        return {
+          ...state,
+          [action.authedUser]: {
+            ...state[action.authedUser],
+            questions: state[action.authedUser].questions.concat([action.qid])
+          }
+        };  
     default:
       return state
   }
 }
+
+/********************************************************** */
+
+
+export function getQuestions() {
+  return(dispatch) => {
+    return _getQuestions.then(questions => {
+      dispatch(receiveQuestions(questions))
+    })
+  }
+}
+
+export function addUserNewQuestion (authedUser, qid) {
+  return {
+    type: ADD_USER_QUESTION,
+    authedUser,
+    qid
+  }
+}
+
 
 export const questions = (state = {} , action) => {
   switch(action.type) {
@@ -161,74 +168,85 @@ export const questions = (state = {} , action) => {
   }
 }
 
-export const question = (state = {}, action) => {
+export const addNewQuestionReducer = ( state = {} , action )  => {
   switch(action.type) {
-    case SAVE_QUESTION:
-      return {
-        ...state,
-        ...action.question
-      }
+    case ADD_QUESTION:
+        const { question } = action;
+        return {
+          ...state,
+          [question.id]: question,
+        };
     default:
-      return state
+      return state    
   }
 }
 
-export const savePollQuestionAnswer = (state={}, action) => {
-  switch(action.type) {
-    case SAVE_QUESTION_ANSWER:
-      return {
-        question
-      }
-    default:
-      return {
-        state
-      } 
-  }
-}
 
-export function getUsers() {
-  return(dispatch) => {
-    return API._getUsers.then(users => {
-      dispatch(receiveUsers(users))
-    })
-  }
-}
-
-export function getQuestions() {
-  return(dispatch) => {
-    return API._getQuestions.then(questions => {
-      dispatch(receiveQuestions(questions))
-    })
-  }
-}
-
-export function saveQuestion(question) {
-  return(dispatch) => {
-    return API._saveQuestion(question).then(savedQuestion => {
-      dispatch(saveQuestion1(savedQuestion))
-    })
-  }
-}
-
-export function saveQuestionAnswer(authedUser, qid, answer) {
-  return(dispatch) => {
-    return API._saveQuestionAnswer(authedUser,qid,answer).then(savedQuestionAnswer => {
-      console.log("RESULT", savedQuestionAnswer)
-      dispatch(saveQuestionAnswer1(savedQuestionAnswer))
-    })
-  }
-} 
-
-
-
-//thunk to save question
-export function handleSaveQuestion(q) {
+export function saveNewQuestion(optionOneText, optionTwoText, authedUser){
   return (dispatch) => {
-    return saveQuestion(q).then(formattedQuestion => {
-      dispatch(saveQuestion1(formattedQuestion));
-    })
+      
+      return _saveQuestion({
+          optionOneText,
+          optionTwoText,
+          authedUser
+      })
+      .then((question) => {
+          dispatch(addNewQuestion(question));
+          dispatch(addUserNewQuestion(authedUser, question.id))
+      })
   }
 }
+
+
+
+
+// export function saveQuestionAnswer({authedUser, qid, answer}){
+//   return(dispatch) => {
+//     return API._saveQuestionAnswer(authedUser,qid,answer).then(savedQuestionAnswer => {
+//       console.log("RESULT", savedQuestionAnswer)
+//       dispatch(saveQuestionAnswer1({authedUser, qid, answer}))
+//     })
+//   }
+// } 
+
+
+
+// //thunk to save question
+// export function handleSaveQuestion(q) {
+//   return (dispatch) => {
+//     return saveQuestion(q).then(formattedQuestion => {
+//       dispatch(saveQuestion1(formattedQuestion));
+//     })
+//   }
+// }
+
+
+// initialState = {
+//   "6ni6ok3ym7mf1p33lnez" :{
+//     "id": "6ni6ok3ym7mf1p33lnez",
+//     "author": "johndoe",
+//     "timestamp": 1468479767190,
+//     "optionOne": {
+//         "votes": [],
+//         "text": "become a superhero"
+//     },
+//     "optionTwo": {
+//         "votes": [
+//             "johndoe",
+//             "sarahedo"
+//         ],
+//         "text": "become a supervillian"
+//     }
+//   }
+// }
+
+// // save question answer reducer using redux toolkit 
+// const sqareducer = createReducer(initialState, {
+//   UPDATE_ITEM: (state, action) => {
+//     state.first.second[action.someId].fourth = action.someValue
+//   }
+// })
+
 
 
 //export default handleInitialData;
@@ -237,10 +255,10 @@ export const reducers = combineReducers({
 
   users,
   questions,
-  question,
+  
   authedUser,
   userLoginStatus,
-  savePollQuestionAnswer,
+  addNewQuestionReducer
 });
 
 // store.js

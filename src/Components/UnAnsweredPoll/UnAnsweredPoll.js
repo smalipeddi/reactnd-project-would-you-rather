@@ -1,28 +1,24 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'
-import { saveQuestion1 } from "../../redux";
-import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 // will take the question and populate a ui with the two radio buttons which will vote 
 function UnAnsweredPoll(props) {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    let handleViewPoll = (q) => {
-        dispatch(saveQuestion1(q))
-        navigate('/viewpoll')
-    }
-
+    
     return (<div>
-        {props.questions.map(q => (<div key={q.id}> 
-            <div> {q.author} asks: </div>
-            <div>
-                <div>avatar</div>
-                <div><span>Would you rather</span>
-                    <div>{q.optionOne.text}...</div></div>
-                <button onClick={() => {handleViewPoll(q)}}>View Poll</button>
+        {props.questions.map(q => (
+            <div className="card" key={q.id}>
+                <div className="author"> {q.author} asks: </div>
+                <div className="question">
+                    <img src="../../images/first.jpg" width="100" height="120" />
+                    <div className="question-col">
+                        <div className="card-body">Would you rather</div>
+                        <div>{q.optionOne.text.toString()}</div>
+                        <Link className="nav-link" to={{
+                            pathname: `/question/${q.id}`
+                        }}> View Poll </Link>
+                    </div>
+                </div>
             </div>
-        </div>
         ))}
     </div>)
 }
