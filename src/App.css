@@ -93,4 +93,30 @@ li {
   display: flex;
   flex-direction: column;
 }
-
+.card-body {
+  font-weight: bold;
+}
+.padding {
+  padding: 10px;
+}
+.nav-link {
+  color: none;
+}
+.navbar {
+  background: cornflowerblue;
+}
+.center {
+  margin: auto;
+}
+input {
+  margin: 10px;
+}
+.signin-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 100px;
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+}

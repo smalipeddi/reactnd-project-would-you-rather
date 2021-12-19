@@ -57,22 +57,22 @@ function SignIn(props) {
     return () => mounted = false;
   }, []);
 
-  return (<div className="container">
-    <div className="col"></div>
-    <div className="col top">
-      <div className="jumbotron">
-        <h1> Welcome to the Would you rather App.</h1>
-        <h2> Please Sign In to continue</h2>
-      </div>
-      <select id="select" className="form-select" defaultValue={'none'}
+  return (<div className="signin-wrapper">
+   
+    <div className="card question">
+      <div className="card-body question-col">
+        <h3> Welcome to the Would you rather App.</h3>
+        <h4> Please Sign In to continue</h4>
+        <select id="select" className="form-select" defaultValue={'none'}
         onChange={handleChange}>
         <option key="none" vaue="none"> Select User </option>
-        {Object.keys(userList).map(key => <option key={key} value={key}>{userList[key].name}</option>)}
+        {Object.keys(userList).map(key => (<option key={key} value={key}>{userList[key].name}</option>))}
       </select>
       <button onClick={handleSubmit} id="submit-button" type="button" className="btn btn-primary button-margin"> SUBMIT </button>
-    </div>
-    <div className="col"></div>
-  </div>
+      </div>
+      </div>
+</div>
+
   )
 }
 

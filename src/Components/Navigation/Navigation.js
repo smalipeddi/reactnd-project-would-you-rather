@@ -3,6 +3,7 @@ import '../../App.css'; import { connect } from 'react-redux'
 import { logout, login, setAuthedUser, userLoginStatus } from '../../redux';
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import UserInfo from  "../UserInfo/UserInfo"
 
 import {
   Link
@@ -38,12 +39,8 @@ function Navigation(props) {
               </li>
             </ul>
             <hr />
-            {props.userLoginStatus ? (
-          <div>
-            <div className="userName" > {props.authedUser} </div>
-
-            <button type="button" onClick={handleLogout} className="btn btn-primary logout">LOGOUT</button>
-          </div>) : ''}
+        
+          <UserInfo />
           </nav>
 
         </div>

@@ -15,18 +15,19 @@ function UnAnsweredPoll(props) {
     // get the user avatar based on the author 
 
     return (<div>
-        <div>sunitha </div>
         {props.questions.map(q => (
-            <div className="card" key={q.id}>
+            <div className="card wrapper" key={q.id}>
                 <div className="author"> {q.author} asks: </div>
                 <div className="question">
                     <img src={userObjects[q.author].avatarURL} width="100" height="120" />
                     <div className="question-col">
-                        <div className="card-body">Would you rather</div>
-                        <div>{q.optionOne.text.toString()}</div>
+                        <div className="card-body ">Would you rather</div>
+                        <div className="padding">{q.optionOne.text.toString()}...</div>
+                        <button className="btn btn-warning">
                         <Link className="nav-link" to={{
                             pathname: `/question/${q.id}` 
-                        }}  state={{ from: q }} > View Poll </Link>
+                        }}  state={{ from: q  }} > View Poll </Link>
+                        </button>
                     </div>
                 </div>
             </div>
