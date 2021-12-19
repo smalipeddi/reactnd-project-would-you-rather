@@ -41,7 +41,7 @@ class Home extends Component {
           <div className="row align-items-start">
             <div className="col"></div>
             <div className="col">
-              <div className="btn-group" role="group" aria-label="Basic outlined example">
+              <div className="btn-group" role="group" aria-label="Basic">
                 <button type="button" className="btn btn-outline-primary active"
                   onClick={() =>
                     this.setState({
@@ -51,7 +51,7 @@ class Home extends Component {
                 >
                   UNANSWERED QUESTIONS
             </button>
-                <button ype="button" className="btn btn-outline-primary"
+                <button ype="button" className="btn btn-primary"
                   onClick={() =>
                     this.setState({
                       showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,

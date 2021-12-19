@@ -89,4 +89,8 @@ li {
   flex-direction: column;
   align-items: center;
 }
+.question-options {
+  display: flex;
+  flex-direction: column;
+}
 

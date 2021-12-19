@@ -1,8 +1,6 @@
 import { combineReducers, createStore } from 'redux';
 import {_getUsers, _getQuestions, _saveQuestion, _saveQuestionAnswer } from  "./_DATA"
 import middleware from "./Middleware"
-import { createReducer } from '@reduxjs/toolkit'
-import update from 'react-addons-update'
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
@@ -28,13 +26,7 @@ export function login(isLoggedIn) {
   }
 }
 
-// new question 
-export function addNewQuestion( opt1, opt2, authedUser) {
-  return {
-    type: ADD_QUESTION,
-    opt1, opt2, authedUser
-  }
-}
+
 
 
 export function logout(isLoggedIn) {
@@ -69,14 +61,21 @@ export function receiveQuestions(questions) {
 }
 
 // // just to save to the new poll page on unanswered section
-export function saveQuestion(question) {
+export function question(question) {
   return {
     type: SAVE_QUESTION,
     question
   }
 }
 
- export function saveQuestionAnswer1(authedUser,qid,answer) {
+// new question 
+export function addNewQuestion( opt1, opt2, authedUser) {
+  return {
+    type: ADD_QUESTION,
+    opt1, opt2, authedUser
+  }
+}
+export function saveQuestionAnswer(authedUser,qid,answer) {
   return {
     type: SAVE_QUESTION_ANSWER,
     authedUser,qid,answer
@@ -86,6 +85,17 @@ export function saveQuestion(question) {
 /**********************  REDUCERS  *************************/
 // reducers
 
+export function saveQuestionFromPoll(state = {} , action) {
+  switch(action.type) {
+    case SAVE_QUESTION:
+      return {
+        ...state,
+       ...action.question
+      }
+      default:
+        return state
+  }
+}
 
 export function getUsers() {
   return(dispatch) => {
@@ -147,6 +157,7 @@ export function getQuestions() {
   }
 }
 
+// add new question 
 export function addUserNewQuestion (authedUser, qid) {
   return {
     type: ADD_USER_QUESTION,
@@ -168,6 +179,7 @@ export const questions = (state = {} , action) => {
   }
 }
 
+// for new question 
 export const addNewQuestionReducer = ( state = {} , action )  => {
   switch(action.type) {
     case ADD_QUESTION:
@@ -255,9 +267,9 @@ export const reducers = combineReducers({
 
   users,
   questions,
-  
   authedUser,
   userLoginStatus,
+  saveQuestionFromPoll,
   addNewQuestionReducer
 });
 

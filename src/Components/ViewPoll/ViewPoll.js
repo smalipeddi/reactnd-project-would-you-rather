@@ -1,62 +1,52 @@
-import React from "react";
+import React , { useState } from "react";
 import Navigation from "../Navigation/Navigation";
 import { connect, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { saveQuestion, saveQuestionAnswer1 } from "../../redux";
+import { useSelector } from 'react-redux'
+import { questions, question, users, authedUser, saveQuestionAnswer } from '../../redux'
+import { useLocation , useNavigate} from 'react-router-dom'
+import {  setState } from 'react'
 
 function ViewPoll(props) {
-  const [currentRadioValue, setCurrentValue] = React.useState("on");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  let onChangeValue = (e) => {
-    setCurrentValue(e.target.value);
-    
-    dispatch(
-      saveQuestionAnswer1(props.authedUser, props.question.id, e.target.value)
-    );
-  };
-
-  let saveAnswer = () => {
-    navigate("/home");
-  };
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const authedUser = useSelector((state) => state.authedUser)
+  const location = useLocation()
+  const { from } = location.state
+  const [optionOne, setOptionOne] = useState("")
+  const [optionTwo, setOptionTwo] = useState("")
+  
+  let onSubmitQuestion = (e) => {
+    e.preventDefault();
+    const qid = from.id
+    if(optionOne) {
+      alert(`submitting ${optionOne}`)
+      dispatch(saveQuestionAnswer(authedUser, qid , optionOne ))
+      navigate('/home')
+    } else {
+      alert(`submitting ${optionTwo}`)
+      dispatch(saveQuestionAnswer(authedUser, qid , optionTwo ))
+      navigate('/home')
+    }
+   
+  
+  }
 
   return (
+
     <div>
-     
       <Navigation />
-      <h1>Create New Question</h1>
-      <p>Comptet the Question</p>
-      <div>Would You rather -</div>
-      {/* <div>{Object.values(props.question.id)}</div> */}
-      <div>
-        {/* <form onSubmit={saveAnswer}>
-          {Object.values[props.question.id].map(val => {
-             <input
-             name={val.name}
-             value="optionOne"
-             type="radio"
-             onChange={onChangeValue}
-             checked={currentRadioValue === val}
-           />
-          })}
-          {/* <input
-            name="radio-item-1"
-            value="optionOne"
-            type="radio"
-            onChange={onChangeValue}
-            checked={currentRadioValue === props.question.optionOne}
-          />
-          {props.question.optionOne.text}
-          <input
-            name="radio-item-1"
-            value="optionTwo"
-            type="radio"
-            onChange={onChangeValue}
-          /> 
-          {props.question.optionTwo.text}
-          <button>SUBMIT </button>
-        </form> */}
+      <div >{from.author} says: </div>
+      <div className="question">
+        <img src="../../images/first.jpg" width="100" height="120" />
+        <div className="question-col">
+          <span className="card-body">  Would you rather</span>
+          <form className="question-options" onSubmit={onSubmitQuestion}>
+            <input onChange={(e) => setOptionOne(e.target.value)} type="radio" name={optionOne} value={from.optionOne.text} />{from.optionOne.text}
+            <input onChange={(e) => setOptionTwo(e.target.value)} type="radio" name={optionTwo} value={from.optionTwo.text} />{from.optionTwo.text}
+            <button className="btn btn-primary"> Submit</button>
+            
+          </form>
+        </div>
       </div>
     </div>
   );
@@ -64,18 +54,15 @@ function ViewPoll(props) {
 
 function mapStateToProps(state) {
   return {
-    question: state.question,
-    user: state.user,
-    questions: state.questions,
-    users: state.users,
-    authedUser: state.authedUser,
-  };
+  
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    
-  };
+   
+
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewPoll);
