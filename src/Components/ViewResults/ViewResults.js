@@ -18,9 +18,11 @@ function ViewResults(props) {
 
     const location = useLocation()
     const { from } = location.state
-
+    console.log("FROM",from)
+    console.log("USERS", users)
 
     return (
+
         <div>
             <Navigation />
 
@@ -50,9 +52,7 @@ function ViewResults(props) {
                                 </div>
                                 <div> 2 out of 3 votes</div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -1,13 +1,15 @@
 import React ,{ useState } from 'react';
 import Navigation from "../Navigation/Navigation";
 import { connect, useSelector } from 'react-redux'
-import { addNewQuestion, authedUser, questions, saveNewQuestion } from '../../redux'
-import { Navigate } from 'react-router-dom';
+import { authedUser, questions, saveNewQuestion } from '../../redux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import  PageNotFound from "../PageNotFound/PageNotFound"
 
-
+/** 
+ * New Component that allows user to adda new question to the questions array and update the user question array
+ *  
+ * */
 function NewQuestion(props) {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -16,8 +18,10 @@ function NewQuestion(props) {
     const authedUser = useSelector((state) => state.authedUser)
 
     let onSubmitNewQuestion = (e) => {
+    
+    console.log("sunitha new question options",firstOption, secondOption,authedUser);
         e.preventDefault();
-        dispatch(saveNewQuestion({ firstOption, secondOption, authedUser }))
+        dispatch(saveNewQuestion( firstOption, secondOption, authedUser ))
         navigate('/home')
     }
 

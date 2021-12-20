@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import Navigation from "../Navigation/Navigation";
 import { connect, useDispatch } from "react-redux";
 import { useSelector } from 'react-redux'
-import { questions, question, users, authedUser, saveQuestionAnswer } from '../../redux'
+import { saveQuestionAnswerAfterPoll } from '../../redux'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+/** 
+ * View Poll Component displays user with option to select the option and save the question 
+ * */
 
 function ViewPoll(props) {
   const navigate = useNavigate()
@@ -19,7 +22,7 @@ function ViewPoll(props) {
   const location = useLocation()
   const { from } = location.state
   const [options, setName] = useState("")
- 
+
   let onSubmitQuestion = (e) => {
 
     e.preventDefault();
@@ -30,8 +33,7 @@ function ViewPoll(props) {
     const options = document.querySelector('input[name="options"]:checked').value;
 
     if (options) {
-      alert(`submitting ${options}`)
-      dispatch(saveQuestionAnswer(authedUser, qid, options))
+      dispatch(saveQuestionAnswerAfterPoll(authedUser, qid, options))
       navigate('/home')
     }
 
@@ -40,35 +42,29 @@ function ViewPoll(props) {
   return (
     <div>
       <Navigation />
-     
+
       <div className="card" >
-                <div className="author"> {from.author} says: </div>
-                <div className="question">
-                <img src={userObjects[from.author].avatarURL} width="100" height="120" />
-                    <div className="question-col">
-                    <form className="question-options" onSubmit={onSubmitQuestion}>
-            <input defaultChecked onChange={(e) => setName(e.currentTarget.value)} type="radio" name="options" value={from.optionOne.text} />{from.optionOne.text}
-            <input onChange={(e) => setName(e.currentTarget.value)} type="radio" name="options" value={from.optionTwo.text} />{from.optionTwo.text}
-            <button className="btn btn-primary"> Submit</button>
-          </form>
-                    </div>
-                </div>
-            </div>
+        <div className="author"> {from.author} says: </div>
+        <div className="question">
+          <img src={userObjects[from.author].avatarURL} width="100" height="120" />
+          <div className="question-col">
+            <form className="question-options" onSubmit={onSubmitQuestion}>
+              <input defaultChecked onChange={(e) => setName(e.currentTarget.value)} type="radio" name="options" value="optionOne" />{from.optionOne.text}
+              <input onChange={(e) => setName(e.currentTarget.value)} type="radio" name="options" value="optionTwo" />{from.optionTwo.text}
+              <button className="btn btn-primary"> Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-function mapStateToProps(state) {
-  return {
-
-  }
-}
-
 function mapDispatchToProps(dispatch) {
   return {
-
+    saveQuestionAnswerAfterPoll
 
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewPoll);
+export default connect(null, mapDispatchToProps)(ViewPoll);

@@ -8,6 +8,11 @@ import * as API from "../../_DATA"
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 
+/** 
+ * Sign In page is the entry point of this application . It allows user to login based on the user selecte din drop down option.
+ * */
+
+
 function SignIn(props) {
 
   const dispatch = useDispatch()
@@ -61,7 +66,7 @@ function SignIn(props) {
    
     <div className="card question">
       <div className="card-body question-col">
-        <h3> Welcome to the Would you rather App.</h3>
+        <h3> Welcome to the Would you Rather App.</h3>
         <h4> Please Sign In to continue</h4>
         <select id="select" className="form-select" defaultValue={'none'}
         onChange={handleChange}>

@@ -5,6 +5,11 @@ import { setAuthedUser } from "../../redux";
 import { Navigate } from 'react-router-dom'
 import AnsweredPoll from "../AnsweredPoll/AnsweredPoll";
 import UnAnsweredPoll from "../UnAnsweredPoll/UnAnsweredPoll";
+
+/** 
+ * Component that displays the Answered and UnAnsered questions by users
+ * 
+ * */
 class Home extends Component {
 
   constructor(props) {
@@ -36,49 +41,49 @@ class Home extends Component {
 
     return (
       <div className="container-fluid">
-        {this.props.authedUser ? 
+        {this.props.authedUser ?
           (<div> <Navigation />
-          <div className="row align-items-start">
-            <div className="col"></div>
-            <div className="col">
-              <div className="btn-group" role="group" aria-label="Basic">
-                <button type="button" className="btn btn-outline-primary active"
-                  onClick={() =>
-                    this.setState({
-                      showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
-                    })
-                  }
-                >
-                  UNANSWERED QUESTIONS
+            <div className="row align-items-start">
+              <div className="col"></div>
+              <div className="col">
+                <div className="btn-group" role="group" aria-label="Basic">
+                  <button type="button" className="btn btn-outline-primary active"
+                    onClick={() =>
+                      this.setState({
+                        showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
+                      })
+                    }
+                  >
+                    UNANSWERED QUESTIONS
             </button>
-                <button ype="button" className="btn btn-primary"
-                  onClick={() =>
-                    this.setState({
-                      showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
-                    })
-                  }
-                >
-                  ANSWERED QUESTIONS
+                  <button ype="button" className="btn btn-primary"
+                    onClick={() =>
+                      this.setState({
+                        showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,
+                      })
+                    }
+                  >
+                    ANSWERED QUESTIONS
             </button>
+                </div>
+                <div>
+                  <div>{this.state.showUnAnsweredQuestions}</div>
+                  {this.state.showUnAnsweredQuestions ? (
+                    <div>
+                      {" "}
+                      <UnAnsweredPoll questions={unAnsweredQuestions} />{" "}
+                    </div>
+                  ) : (
+                    <div>
+                      <AnsweredPoll questions={answeredQuestions} />
+                    </div>
+                  )}
+                </div>
               </div>
-              <div>
-                <div>{this.state.showUnAnsweredQuestions}</div>
-                {this.state.showUnAnsweredQuestions ? (
-                  <div>
-                    {" "}
-                    <UnAnsweredPoll questions={unAnsweredQuestions} />{" "}
-                  </div>
-                ) : (
-                  <div>
-                    <AnsweredPoll questions={answeredQuestions} />
-                  </div>
-                )}
-              </div>
+              <div className="col"></div>
             </div>
-            <div className="col"></div>
-          </div>
-        </div>) : (<Navigate to="/pagenotfound" />
-        )}
+          </div>) : (<Navigate to="/pagenotfound" />
+          )}
       </div>
     );
   }

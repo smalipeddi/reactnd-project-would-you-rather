@@ -3,6 +3,11 @@ import Navigation from '../Navigation/Navigation'
 import { connect } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import { setAuthedUser } from '../../redux';
+
+/** 
+ * Page Not Found Component is displayed when ever a unauthorized user tries to navigate or login to page*  
+ * */
+
 function PageNotFound(props) {
     return (<div>
         <Navigation />

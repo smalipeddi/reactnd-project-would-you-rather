@@ -2,9 +2,11 @@ import React  from 'react';
 import { Link } from 'react-router-dom'
 import {useSelector} from 'react-redux'
  
+/** 
+ * UnAnswered Component will take the question and populate a ui with the two radio buttons which will vote 
+ * */ 
 
 
-// will take the question and populate a ui with the two radio buttons which will vote 
 function UnAnsweredPoll(props) {
     // get the author of the question , which is user 
     const questions = useSelector((state) => state.questions)

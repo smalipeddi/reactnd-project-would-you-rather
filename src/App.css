@@ -120,3 +120,9 @@ input {
   display: flex;
   justify-content: center;
 }
+.card-info{
+  display: flex; 
+  justify-content: center;
+  margin: auto;
+  width:600px;
+}
