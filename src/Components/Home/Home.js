@@ -5,6 +5,7 @@ import { setAuthedUser } from "../../redux";
 import { Navigate } from 'react-router-dom'
 import AnsweredPoll from "../AnsweredPoll/AnsweredPoll";
 import UnAnsweredPoll from "../UnAnsweredPoll/UnAnsweredPoll";
+import classNames from 'classnames';
 
 /** 
  * Component that displays the Answered and UnAnsered questions by users
@@ -28,8 +29,7 @@ class Home extends Component {
     const { users, questions, authedUser } = this.props;
 
     const user = users[authedUser];
-    const list = Object.values(this.props.questions);
-
+   
     // find the answered question ids from answers for the logged in user
     const answeredQuestionsByUser = Object.keys(user.answers).sort((a, b) => questions[b].timestamp - questions[a].timestamp);
 
@@ -39,6 +39,11 @@ class Home extends Component {
     // get te list of questions that were un answered by authedUser
     const unAnsweredQuestions = Object.values(questions).filter(q => !answeredQuestionsByUser.includes(q.id));
 
+    const classes = classNames({
+      'btn btn-primary': true, 
+      active: this.state.showUnAnsweredQuestions, // only add this class if the state says so
+   });
+
     return (
       <div className="container-fluid">
         {this.props.authedUser ?
@@ -47,7 +52,7 @@ class Home extends Component {
               <div className="col"></div>
               <div className="col">
                 <div className="btn-group" role="group" aria-label="Basic">
-                  <button type="button" className="btn btn-outline-primary active"
+                  <button type="button" className={classes}
                     onClick={() =>
                       this.setState({
                         showUnAnsweredQuestions: !this.state.showUnAnsweredQuestions,

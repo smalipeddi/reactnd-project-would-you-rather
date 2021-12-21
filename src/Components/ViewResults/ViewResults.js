@@ -1,56 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 import Navigation from "../Navigation/Navigation";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { useSelector } from 'react-redux'
-import { questions, question, users, authedUser, saveQuestionAnswer } from '../../redux'
-import { useLocation, useNavigate } from 'react-router-dom'
-
+import { useLocation, } from 'react-router-dom'
 
 function ViewResults(props) {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const authedUser = useSelector((state) => state.authedUser)
+
     //get user objects - array of users
     const userObjects = useSelector((state) => state.users)
 
-    const users = Object.values(userObjects)
-    // get the user avatar based on the author 
-
     const location = useLocation()
     const { from } = location.state
-    console.log("FROM",from)
-    console.log("USERS", users)
 
     return (
 
         <div>
             <Navigation />
 
-            <div className="card" >
+            <div className="card center-card" >
                 <div className="author">Asked by  {from.author}  </div>
                 <div className="question">
-                    <img src={userObjects[from.author].avatarURL} width="100" height="120" />
-                    <div className="question-col">
+                    <img src={userObjects[from.author].avatarURL} alt="avatar" width="100" height="120" />
+                    <div className="question-col result-wrapper">
                         <div className="card-title">Results</div>
                         <div>
-                            <div>
+                            <div className="result">
                                 <div>
                                     {from.optionOne.text}
                                 </div>
-                                <div> % </div>
-                                <div className="progress">
-                                    <div className="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                </div>
-                                <div> 2 out of 3 votes</div>
+                                <div> {from.optionOne.votes.length / (from.optionOne.votes.length + from.optionTwo.votes.length) * 100}  % </div>
                             </div>
-                            <div>
+                            <div className="result">
                                 <div>
                                     {from.optionTwo.text}
                                 </div>
-                                <div className="progress">
-                                    <div className="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">25%</div>
-                                </div>
-                                <div> 2 out of 3 votes</div>
+                                <div> {from.optionTwo.votes.length / (from.optionOne.votes.length + from.optionTwo.votes.length) * 100}  % </div>
                             </div>
                         </div>
                     </div>

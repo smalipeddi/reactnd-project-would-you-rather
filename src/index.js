@@ -9,8 +9,6 @@ import { store } from './redux';
 import App from "./App"
 import { BrowserRouter as Router } from "react-router-dom";
 
-const Context = React.createContext();
-
 ReactDOM.render(
 
 

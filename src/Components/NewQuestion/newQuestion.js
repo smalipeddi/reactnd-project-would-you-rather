@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import  PageNotFound from "../PageNotFound/PageNotFound"
 
 /** 
- * New Component that allows user to adda new question to the questions array and update the user question array
+ * New Component that allows user to adda new question to the questions array and update the user state question array
  *  
  * */
 function NewQuestion(props) {
@@ -18,8 +18,6 @@ function NewQuestion(props) {
     const authedUser = useSelector((state) => state.authedUser)
 
     let onSubmitNewQuestion = (e) => {
-    
-    console.log("sunitha new question options",firstOption, secondOption,authedUser);
         e.preventDefault();
         dispatch(saveNewQuestion( firstOption, secondOption, authedUser ))
         navigate('/home')

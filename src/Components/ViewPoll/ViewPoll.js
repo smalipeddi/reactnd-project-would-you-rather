@@ -16,9 +16,6 @@ function ViewPoll(props) {
   //get user objects - array of users
   const userObjects = useSelector((state) => state.users)
 
-  const users = Object.values(userObjects)
-  // get the user avatar based on the author 
-
   const location = useLocation()
   const { from } = location.state
   const [options, setName] = useState("")
@@ -43,10 +40,10 @@ function ViewPoll(props) {
     <div>
       <Navigation />
 
-      <div className="card" >
+      <div className="card center-card" >
         <div className="author"> {from.author} says: </div>
         <div className="question">
-          <img src={userObjects[from.author].avatarURL} width="100" height="120" />
+          <img src={userObjects[from.author].avatarURL}  alt="avatar" width="100" height="120" />
           <div className="question-col">
             <form className="question-options" onSubmit={onSubmitQuestion}>
               <input defaultChecked onChange={(e) => setName(e.currentTarget.value)} type="radio" name="options" value="optionOne" />{from.optionOne.text}

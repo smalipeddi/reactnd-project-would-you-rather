@@ -1,7 +1,6 @@
 import { combineReducers, createStore } from 'redux';
 import { _getUsers, _getQuestions, _saveQuestion, _saveQuestionAnswer } from "./_DATA"
 import middleware from "./Middleware"
-import produce from 'immer';
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 export const RECEIVE_USERS = 'RECEIVE_USERS'
@@ -10,9 +9,9 @@ export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGOUT = 'USER_LOGOUT'
 export const ADD_QUESTION = 'ADD_QUESTION'
 export const SAVE_QUESTION = 'SAVE_QUESTION'
-
+export const SAVE_USER_ANSWER = 'SAVE_USER_ANSWER'
 export const SAVE_QUESTION_ANSWER = 'SAVE_QUESTION_ANSWER'
-export const ADD_USER_QUESTION = 'ADD_USER_QUESTION'
+export const SAVE_USER_NEW_QUESTION = 'SAVE_USER_NEW_QUESTION'
 
 
 /**************************************************************************************** */
@@ -119,14 +118,13 @@ export const questions = (state = {}, action) => {
         [action.question.id]: action.question
       }
       case SAVE_QUESTION_ANSWER: 
-            const votes = state[action.qid][action.answer].votes
             return {
                 ...state,
                 [action.qid]: {
                     ...state[action.qid],
                     [action.answer]: {
                         ...state[action.qid][action.answer],
-                        votes: votes.concat([action.authedUser])
+                        votes: state[action.qid][action.answer].votes.concat([action.authedUser])
                     }
                 }
             }
@@ -149,9 +147,18 @@ export function getQuestions() {
 
 export function saveUserNewQuestion(authedUser, qid) {
   return {
-    type: ADD_USER_QUESTION,
+    type: SAVE_USER_NEW_QUESTION,
     authedUser,
     qid
+  }
+}
+
+export function saveUserAnswer (user, qid, answer) {
+  return {
+    type: SAVE_USER_ANSWER,
+    user,
+    qid,
+    answer
   }
 }
 
@@ -163,7 +170,18 @@ export const users = (state = {}, action) => {
         ...state,
         ...action.users
       }
-    case ADD_USER_QUESTION:
+      case SAVE_USER_ANSWER :
+            return {
+              ...state,
+              [action.user] : {
+                ...state[action.user],
+                answers : {
+                  ...state[action.user].answers,
+                  [action.qid] : action.answer
+                }
+              }
+            }
+    case SAVE_USER_NEW_QUESTION:
       return {
         ...state,
         [action.authedUser]: {
@@ -185,11 +203,10 @@ export function saveNewQuestion(optionOneText, optionTwoText, authedUser) {
       "optionTwoText": optionTwoText,
       "author": authedUser
     }
-
+    // pass the data to the API
     return _saveQuestion(question)
       .then((question) => {
-
-
+        // update the questions array , which takes question id as key and question as value
         dispatch(saveQuestion(question));
         // add question to users questions array
         dispatch(saveUserNewQuestion(authedUser, question.id))
@@ -198,18 +215,20 @@ export function saveNewQuestion(optionOneText, optionTwoText, authedUser) {
 }
 
 export function saveQuestionAnswerAfterPoll(authedUser, qid, options) {
-  return(dispatch) => {
-    let saveQA = {
-      "authedUser": authedUser,
-      "qid": qid,
-      "answer": options
-    }
-     return _saveQuestionAnswer(saveQA)
-     .then((result) => {
-       dispatch(saveQuestionAnswer(authedUser, qid, options));
+   return(dispatch) => {
+     const saveQA = {
+       "authedUser": authedUser,
+       "qid": qid,
+       "answer": options
+     }
+      return _saveQuestionAnswer(saveQA)
+      .then(() => {
+        dispatch(saveQuestionAnswer(authedUser, qid, options))
+        dispatch(saveUserAnswer(authedUser, qid, options))
 
-     })
-  }
+      })
+   }
+
 }
 
 /**************************************************************************************** */

@@ -2,28 +2,16 @@ import React from 'react';
 import '../../App.css'; 
 import { connect } from 'react-redux'
 import { logout, setAuthedUser } from '../../redux';
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 import UserInfo from  "../UserInfo/UserInfo"
 import { Link } from "react-router-dom";
 
-const AUTHED_USER = null
 /** 
  * Navigation Component that displays the three navigation items - Home , New Question and  LeaderBoard 
  *  
  * */
 
 function Navigation(props) {
-  const dispatch = useDispatch()
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    // reset authed user
-    dispatch(setAuthedUser(AUTHED_USER));
-    dispatch(logout(true))
-    navigate('/SignIn')
-  }
-
+  
   return (
     <div className="container-fluid">
       <div >
@@ -41,16 +29,11 @@ function Navigation(props) {
               </li>
             </ul>
             <hr />
-        
           <UserInfo />
           </nav>
-
         </div>
-        
       </div>
     </div>
-
-
   )
 
 }
