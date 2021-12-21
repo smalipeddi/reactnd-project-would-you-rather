@@ -64,7 +64,7 @@ function SignIn(props) {
 
   return (<div className="signin-wrapper">
    
-    <div className="card question">
+    <div className="card center-card">
       <div className="card-body question-col">
         <h3> Welcome to the Would you Rather App.</h3>
         <h4> Please Sign In to continue</h4>

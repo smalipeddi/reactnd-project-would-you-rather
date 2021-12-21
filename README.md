@@ -7,87 +7,47 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### Login Page
+### Would you rather Application
 
-Sign In  page is created to allow the user to Sign In and redirect to the dashboard page.
+It is built using react redux .
+
+Redux store is created.
+
+Routing is added to navigate within the UI 
+
+various components like sign In, Home, Leader Board, New Questions , User Details, Answered , Un Answered ,, View Pol, View Results are added 
+
+Hooks are used for funcntional components .
+
+### Sign In Page
+
+Sign In  page is created to allow the user to Sign In and redirect to the home page.
 Only the logged in users are allowed to naviagte throughout the application.
 
-It is created by storing the users in the store and by making the isLoggedIn flag as true.
-The isLoggedIn boolean flag is responsible for validating the current user on the page.
+It is created by storing the users in the store and by making the isLoggedIn flag to true.
+The isLoggedIn boolean flag is responsible for validating the user  as a authedUser on the pages.
 
+### Home page
 
-Would You Rather Project
-This is the starter code for the final assessment project for Udacity's React & Redux course.
+The home page displays both the Answered and UnAnswered Questions by the auhed User.
 
-The _DATA.js file represents a fake database and methods that let you access the data. The only thing you need to edit in the _DATA.js file is the value of avatarURL. Each user should have an avatar, so you’ll need to add the path to each user’s avatar.
+The home page gets access to the questions, categorize them based on the questions from the users state .
 
-Using the provided starter code, you'll build a React/Redux front end for the application. We recommend using the Create React App to bootstrap the project.
+The home page displays the UnAnswered Questions by default on the home page.
 
-Data
-There are two types of objects stored in our database:
+Each card displays the Question and the has showPoll button which will navigate the user to show Poll and Show Results pages based on Un Anaswered and Answered Questions 
 
-Users
-Questions
-Users
-Users include:
+### New Question 
 
-Attribute	Type	Description
-id	String	The user’s unique identifier
-name	String	The user’s first name and last name
-avatarURL	String	The path to the image file
-questions	Array	A list of ids of the polling questions this user created
-answers	Object	The object's keys are the ids of each question this user answered. The value of each key is the answer the user selected. It can be either 'optionOne' or 'optionTwo' since each question has two options.
-Questions
-Questions include:
+New question page gives user ability to add question.
+Two states get udated .
 
-Attribute	Type	Description
-id	String	The question’s unique identifier
-author	String	The author’s unique identifier
-timestamp	String	The time when the question was created
-optionOne	Object	The first voting option
-optionTwo	Object	The second voting option
-Voting Options
-Voting options are attached to questions. They include:
+Firstly the questions state is uodated with the new entry in array of questions
 
-Attribute	Type	Description
-votes	Array	A list that contains the id of each user who voted for that option
-text	String	The text of the option
-Your code will talk to the database via 4 methods:
+Secondly - the User state is upated with the question array in array of question ids
 
-_getUsers()
-_getQuestions()
-_saveQuestion(question)
-_saveQuestionAnswer(object)
-_getUsers() Method
-Description: Get all of the existing users from the database.
-Return Value: Object where the key is the user’s id and the value is the user object.
+### Leader Board 
 
-_getQuestions() Method
-Description: Get all of the existing questions from the database.
-Return Value: Object where the key is the question’s id and the value is the question object.
+Leader board displays all users and the number of questions asked and Number of Questions Answered with the score.
 
-_saveQuestion(question) Method
-Description: Save the polling question in the database.
-Parameters: Object that includes the following properties: author, optionOneText, and optionTwoText. More details about these properties:
-
-Attribute	Type	Description
-author	String	The id of the user who posted the question
-optionOneText	String	The text of the first option
-optionTwoText	String	The text of the second option
-Return Value: An object that has the following properties: id, author, optionOne, optionTwo, timestamp. More details about these properties:
-
-Attribute	Type	Description
-id	String	The id of the question that was posted
-author	String	The id of the user who posted the question
-optionOne	Object	The object has a text property and a votes property, which stores an array of the ids of the users who voted for that option
-optionTwo	Object	The object has a text property and a votes property, which stores an array of the ids of the users who voted for that option
-timestamp	String	The time when the question was created
-_saveQuestionAnswer(object) Method
-Description: Save the answer to a particular polling question in the database. Parameters: Object that contains the following properties: authedUser, qid, and answer. More details about these properties:
-
-Attribute	Type	Description
-authedUser	String	The id of the user who answered the question
-qid	String	The id of the question that was answered
-answer	String	The option the user selected. The value should be either "optionOne" or "optionTwo"
-Contributing
-This repository is the starter code for all Udacity students. Therefore, we most likely will not accept pull requests. For details, check out CONTRIBUTING.md.
+DATA.js file is used to access API calls .
