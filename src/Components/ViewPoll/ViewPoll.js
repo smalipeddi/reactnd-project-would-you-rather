@@ -40,7 +40,7 @@ function ViewPoll(props) {
     <div>
       <Navigation />
 
-      <div className="card center-card" >
+      <div className="card card-info" >
         <div className="author"> {from.author} says: </div>
         <div className="question">
           <img src={userObjects[from.author].avatarURL}  alt="avatar" width="100" height="120" />

@@ -13,7 +13,7 @@ function UnAnsweredPoll(props) {
 
     return (<div>
         {props.questions.map(q => (
-            <div className="card center-card" key={q.id}>
+            <div className="card card-info" key={q.id}>
                 <div className="author"> {q.author} asks: </div>
                 <div className="question">
                     <img src={userObjects[q.author].avatarURL} alt="avatar" width="100" height="120" />

@@ -7,7 +7,7 @@ export const RECEIVE_USERS = 'RECEIVE_USERS'
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const USER_LOGIN = 'USER_LOGIN'
 export const USER_LOGOUT = 'USER_LOGOUT'
-export const ADD_QUESTION = 'ADD_QUESTION'
+
 export const SAVE_QUESTION = 'SAVE_QUESTION'
 export const SAVE_USER_ANSWER = 'SAVE_USER_ANSWER'
 export const SAVE_QUESTION_ANSWER = 'SAVE_QUESTION_ANSWER'
@@ -82,11 +82,11 @@ export const authedUser = (state = null, action) => {
 /**************************************************************************************** */
 /**                    QUESTION ACTIONS AND REDUCERS                                         */
 /**************************************************************************************** */
+
 export function receiveQuestions(questions) {
   return {
     type: RECEIVE_QUESTIONS,
     questions
-
   }
 }
 
@@ -106,7 +106,6 @@ export function saveQuestionAnswer(authedUser, qid, answer) {
 
 export const questions = (state = {}, action) => {
   switch (action.type) {
-
     case RECEIVE_QUESTIONS:
       return {
         ...state,

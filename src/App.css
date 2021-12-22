@@ -82,7 +82,7 @@ li {
   background: cornflowerblue;
   margin: auto;
   padding: 10px;
-  width: 380px;
+  width: 100%;
 }
 .question {
   display: flex;

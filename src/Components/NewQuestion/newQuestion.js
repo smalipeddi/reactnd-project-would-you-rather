@@ -5,7 +5,7 @@ import { authedUser, questions, saveNewQuestion } from '../../redux'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import  PageNotFound from "../PageNotFound/PageNotFound"
-
+import PropTypes from 'prop-types'
 /** 
  * New Component that allows user to adda new question to the questions array and update the user state question array
  *  
@@ -19,9 +19,21 @@ function NewQuestion(props) {
 
     let onSubmitNewQuestion = (e) => {
         e.preventDefault();
-        dispatch(saveNewQuestion( firstOption, secondOption, authedUser ))
-        navigate('/home')
+        if(firstOption && secondOption) {
+            dispatch(saveNewQuestion( firstOption, secondOption, authedUser ))
+            navigate('/home')
+        } else {
+            alert("Enter the options in the input fields")
+            return
+        }
+        
     }
+
+    const propTypes = {
+        firstOption: PropTypes.string.isRequired,
+        secondOption: PropTypes.string.isRequired,
+        onSubmitNewQuestion: propTypes.func.isRequired
+      }
 
     return (<div>
         <Navigation />
@@ -53,7 +65,6 @@ function NewQuestion(props) {
 }
 
 function mapStateToProps(state) {
-
     return {
         authedUser,
         questions

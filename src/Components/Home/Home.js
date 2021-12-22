@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import Navigation from "../Navigation/Navigation";
 import { connect } from "react-redux";
-import { setAuthedUser } from "../../redux";
+import { authedUser, setAuthedUser } from "../../redux";
 import { Navigate } from 'react-router-dom'
 import AnsweredPoll from "../AnsweredPoll/AnsweredPoll";
 import UnAnsweredPoll from "../UnAnsweredPoll/UnAnsweredPoll";
 import classNames from 'classnames';
+import PageNotFound from "../PageNotFound/PageNotFound"
+import PropTypes from "prop-types"
 
 /** 
  * Component that displays the Answered and UnAnsered questions by users
@@ -25,7 +27,14 @@ class Home extends Component {
     }
   }
 
+  static propTypes = {
+    users: PropTypes.object.isRequired,
+    questions: PropTypes.object.isRequired,
+    authedUser: PropTypes.string.isRequired
+  }
+  
   render() {
+   
     const { users, questions, authedUser } = this.props;
 
     const user = users[authedUser];
@@ -48,10 +57,11 @@ class Home extends Component {
       <div className="container-fluid">
         {this.props.authedUser ?
           (<div> <Navigation />
-            <div className="row align-items-start">
+
+            {this.props.authedUser ? (<div className="row align-items-start">
               <div className="col"></div>
               <div className="col">
-                <div className="btn-group" role="group" aria-label="Basic">
+                <div className="btn-group card-info" role="group" aria-label="Basic">
                   <button type="button" className={classes}
                     onClick={() =>
                       this.setState({
@@ -86,13 +96,15 @@ class Home extends Component {
                 </div>
               </div>
               <div className="col"></div>
-            </div>
+            </div>) : (<PageNotFound />)}
+            
           </div>) : (<Navigate to="/pagenotfound" />
           )}
       </div>
     );
   }
 }
+
 
 // AppContainer.js
 function mapStateToProps(state) {

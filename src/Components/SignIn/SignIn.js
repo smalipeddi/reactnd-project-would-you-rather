@@ -5,13 +5,13 @@ import { login, receiveUsers, setAuthedUser, users, questions, receiveQuestions 
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import * as API from "../../_DATA"
+import PropTypes from 'prop-types'
 
 export const SET_AUTHED_USER = 'SET_AUTHED_USER'
 
 /** 
  * Sign In page is the entry point of this application . It allows user to login based on the user selecte din drop down option.
  * */
-
 
 function SignIn(props) {
 
@@ -22,6 +22,10 @@ function SignIn(props) {
   const [userList, setList] = useState([]);
   const [questionList, setQuestions] = useState([])
 
+  const propTypes = {
+    userList: PropTypes.array.isRequired,
+    handleSubmit: PropTypes.func.isRequired
+  }
 
   let handleChange = (e) => {
     dispatch(setAuthedUser(e.target.value));
@@ -63,20 +67,22 @@ function SignIn(props) {
   }, []);
 
   return (<div className="signin-wrapper">
-   
+
     <div className="card center-card">
       <div className="card-body question-col">
         <h3> Welcome to the Would you Rather App.</h3>
         <h4> Please Sign In to continue</h4>
-        <select id="select" className="form-select" defaultValue={'none'}
-        onChange={handleChange}>
-        <option key="none" vaue="none"> Select User </option>
-        {Object.keys(userList).map(key => (<option key={key} value={key}>{userList[key].name}</option>))}
-      </select>
-      <button onClick={handleSubmit} id="submit-button" type="button" className="btn btn-primary button-margin"> SUBMIT </button>
+        <div className="signin">
+          <select id="select" className="form-select" defaultValue={'none'}
+            onChange={handleChange}>
+            <option key="none" vaue="none"> Select User </option>
+            {Object.keys(userList).map(key => (<option key={key} value={key}>{userList[key].name}</option>))}
+          </select>
+          <button onClick={handleSubmit} id="submit-button" type="button" className="btn btn-primary button-margin"> SUBMIT </button>
+        </div>
       </div>
-      </div>
-</div>
+    </div>
+  </div>
 
   )
 }
