@@ -51,3 +51,28 @@ Secondly - the User state is upated with the question array in array of question
 Leader board displays all users and the number of questions asked and Number of Questions Answered with the score.
 
 DATA.js file is used to access API calls .
+
+### Home page - Un Anaswered Qustions (UnAnsweredPoll)
+
+This section is displayed by default on the home page.
+Each question has a button to poll, and takes user to View poll page
+User can poll and as a resut te user state for that user and the questions state is updated accordingly.
+
+### Home page - Answered Questions (AnsweredPoll)
+
+This section is displayed when user toggles between un answered and answered tabs.
+Each question has a button to poll, and takes user to View Results page
+User can view the poll results as % of first option and second options answered 
+
+### User info 
+
+This component displays authed user info and the logout option
+
+### PageNotFound 
+This page is displaye whenever user navigates away from authed user access sections or any url unknown
+
+### Navigation
+
+This component is used to render the nav bar on each page.
+
+

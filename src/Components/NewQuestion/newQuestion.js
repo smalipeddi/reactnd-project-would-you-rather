@@ -17,6 +17,12 @@ function NewQuestion(props) {
     const [secondOption, setSecondOption] = useState("")
     const authedUser = useSelector((state) => state.authedUser)
 
+    const propTypes = {
+        firstOption: PropTypes.string.isRequired,
+        secondOption: PropTypes.string.isRequired,
+        onSubmitNewQuestion: PropTypes.func.isRequired
+    }
+
     let onSubmitNewQuestion = (e) => {
         e.preventDefault();
         if(firstOption && secondOption) {
@@ -28,12 +34,6 @@ function NewQuestion(props) {
         }
         
     }
-
-    const propTypes = {
-        firstOption: PropTypes.string.isRequired,
-        secondOption: PropTypes.string.isRequired,
-        onSubmitNewQuestion: propTypes.func.isRequired
-      }
 
     return (<div>
         <Navigation />
